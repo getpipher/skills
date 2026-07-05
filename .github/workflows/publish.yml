@@ -1,0 +1,56 @@
+name: Publish packages
+
+# Publishes @getpipher/* family packages to npm.
+# Triggers:
+#   - push to main that changes a family's package.json (version bump)
+#   - manual (workflow_dispatch) for the first publish or ad-hoc republish
+# Skips families whose version is already on npm (idempotent — safe to re-run).
+#
+# Requires secret NPM_TOKEN (granular npm token, Read-and-write, scoped to
+# @getpipher, with "Bypass 2FA"). Set at getpipher org level so all getpipher
+# repos inherit it:  gh secret set NPM_TOKEN --org getpipher
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'skills/*/package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Publish all families (skip already-published)
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -u
+          families="git-tools quality workspace work design solana-dev vps-deploy x-api"
+          published_any=false
+          for family in $families; do
+            pkg="@getpipher/$family"
+            ver=$(node -p "require('./skills/$family/package.json').version")
+            existing=$(npm view "$pkg@$ver" version 2>/dev/null || true)
+            if [ "$existing" = "$ver" ]; then
+              echo "::notice::$pkg@$ver already on npm — skipping"
+            else
+              echo "::group::Publishing $pkg@$ver"
+              (cd "skills/$family" && npm publish --access public)
+              echo "::endgroup::"
+              published_any=true
+            fi
+          done
+          if [ "$published_any" = "false" ]; then
+            echo "::notice::All families already published — nothing to do"
+          fi
