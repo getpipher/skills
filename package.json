@@ -1,0 +1,11 @@
+{
+  "name": "skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo of @getpipher/* pi-packages and framework-agnostic Agent Skills — git workflows, code quality, workspace tooling, Solana, infra playbooks, and more.",
+  "keywords": ["pi-package", "monorepo", "agent-skills"],
+  "license": "MIT",
+  "pi": {
+    "skills": ["./skills"]
+  }
+}

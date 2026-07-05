@@ -1,0 +1,35 @@
+{
+  "name": "@getpipher/solana-dev",
+  "version": "0.1.0",
+  "description": "End-to-end Solana development playbook skill for pi \u2014 framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testing (Jan 2026).",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "solana",
+    "blockchain",
+    "anchor",
+    "pinocchio",
+    "web3",
+    "svm"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/solana-dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/solana-dev"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}

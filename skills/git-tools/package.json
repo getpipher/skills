@@ -1,0 +1,33 @@
+{
+  "name": "@getpipher/git-tools",
+  "version": "0.1.0",
+  "description": "Git workflow skills for pi — issue creation, intelligent labeling, PR auditing, and issue solving across GitHub and GitLab.",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "git",
+    "github",
+    "gitlab",
+    "pull-request",
+    "issues",
+    "code-review"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/git-tools",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/git-tools"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": ["."]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "@getpipher/design",
+  "version": "0.1.0",
+  "description": "UI/UX analysis skill for pi \u2014 analyze any website's design and generate AI-friendly prompts (read-only, safe anywhere).",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "design",
+    "ui",
+    "ux",
+    "analysis",
+    "prompts"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/design",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/design"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}

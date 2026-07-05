@@ -1,0 +1,36 @@
+{
+  "name": "@getpipher/vps-deploy",
+  "version": "0.1.0",
+  "description": "VPS deployment & operations skill for pi \u2014 Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure.",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "vps",
+    "deployment",
+    "docker",
+    "nginx",
+    "devops",
+    "ssl",
+    "ssh"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/vps-deploy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/vps-deploy"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@getpipher/quality",
+  "version": "0.1.0",
+  "description": "Code quality skills for pi \u2014 linting/fixing, TypeScript strict checks, production-readiness audit, multi-persona QA, and a brutal pre-prod code roast.",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "quality",
+    "linting",
+    "typescript",
+    "code-review",
+    "qa",
+    "production",
+    "audit"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/quality",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/quality"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@getpipher/workspace",
+  "version": "0.1.0",
+  "description": "Workspace & context-management skills for pi \u2014 repo catch-up, AGENTS.md initialization, ecosystem context-file architecture, doc organization, planning sync, and cross-session handoff.",
+  "keywords": [
+    "pi-package",
+    "pi-skills",
+    "agents-md",
+    "context",
+    "documentation",
+    "onboarding",
+    "workspace",
+    "handoff"
+  ],
+  "license": "MIT",
+  "author": "RECTOR (https://github.com/rz1989s)",
+  "homepage": "https://github.com/getpipher/skills/tree/main/skills/workspace",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getpipher/skills.git",
+    "directory": "skills/workspace"
+  },
+  "bugs": {
+    "url": "https://github.com/getpipher/skills/issues"
+  },
+  "files": [
+    "**/*.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "skills": [
+      "."
+    ]
+  }
+}
