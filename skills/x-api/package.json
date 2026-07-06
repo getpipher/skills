@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/x-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "X/Twitter API v2 reference skill for pi \u2014 auth (Bearer / OAuth 1.0a / 2.0), endpoints, pricing, and a mandatory cost guard.",
   "keywords": [
     "pi-package",
@@ -28,7 +28,7 @@
   ],
   "pi": {
     "skills": [
-      "."
+      "./skills"
     ]
   }
 }

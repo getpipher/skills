@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/vps-deploy",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "VPS deployment & operations skill for pi \u2014 Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure.",
   "keywords": [
     "pi-package",
@@ -30,7 +30,7 @@
   ],
   "pi": {
     "skills": [
-      "."
+      "./skills"
     ]
   }
 }

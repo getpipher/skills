@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/git-tools",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Git workflow skills for pi — issue creation, intelligent labeling, PR auditing, and issue solving across GitHub and GitLab.",
   "keywords": [
     "pi-package",
@@ -28,6 +28,6 @@
     "LICENSE"
   ],
   "pi": {
-    "skills": ["."]
+    "skills": ["./skills"]
   }
 }

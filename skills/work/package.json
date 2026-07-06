@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/work",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lines-of-code metrics skill for pi \u2014 count LOC across multiple repositories via tokei.",
   "keywords": [
     "pi-package",
@@ -27,7 +27,7 @@
   ],
   "pi": {
     "skills": [
-      "."
+      "./skills"
     ]
   }
 }

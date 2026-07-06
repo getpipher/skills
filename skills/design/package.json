@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/design",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "UI/UX analysis skill for pi \u2014 analyze any website's design and generate AI-friendly prompts (read-only, safe anywhere).",
   "keywords": [
     "pi-package",
@@ -28,7 +28,7 @@
   ],
   "pi": {
     "skills": [
-      "."
+      "./skills"
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/quality",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Code quality skills for pi \u2014 linting/fixing, TypeScript strict checks, production-readiness audit, multi-persona QA, and a brutal pre-prod code roast.",
   "keywords": [
     "pi-package",
@@ -30,7 +30,7 @@
   ],
   "pi": {
     "skills": [
-      "."
+      "./skills"
     ]
   }
 }
