@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Browser automation skill for pi \u2014 drive your real Chrome via the browser-use CDP CLI (navigate, screenshot, coordinate-click, extract, tabs). Penetrates closed shadow-DOM & cross-origin iframes via compositor-level coordinate clicks where js selectors fail.",
   "keywords": [
     "pi-package",

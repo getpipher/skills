@@ -41,7 +41,7 @@ The core interaction is **screenshot → read pixel → `click_at_xy(x, y)` → 
 On a text-only model this is crippled — every screenshot needs a separate image-analysis call
 (per-click tax) and is imprecise.
 
-- **Click-heavy session → start pi on a vision-capable model** (one that reads images in-context).
+- **Click-heavy session → start pi on a vision-capable model** (one that reads images in-context). pi's `read` tool passes images to vision models when the session model is vision-capable (validated 2026-07-07). Note: model changes apply at turn boundaries (the agent harness captures `turnState.model` per turn), so if you switch to a vision model mid-session, a `read` in that same turn may still use the previous model — start a new turn after switching, or launch pi fresh on the vision model.
 - **Text-model fallback:** prefer `js(...)` / DOM extraction (`page_info()`, selectors) over
   visual clicks. `describe_image` is fine for *describing* a page but **too imprecise for click
   coordinates** (validated 2026-07-07: derived coord was 160px off → missed a 162px-tall button).
@@ -124,10 +124,13 @@ lines never run). Neutralize dialogs upfront:
 `js("window.alert = window.confirm = window.prompt = () => {}")` — then clicks complete
 their handlers normally.
 
-## Known limitation
+## Pure-visual targets (canvas, image maps) — start a vision session
 
-Pure-visual coordinate derivation (canvas, image maps — targets with **no** js-reachable
-container) requires a vision model that reads images in-context. If your pi setup's `read` tool
-doesn't pass images to the model, coordinate-clicking such targets is unavailable — use
-`js(...)` or the container-coords technique instead. This is a pi image-passing limitation, not
-a browser-use limitation.
+For targets with **no** js-reachable container (canvas, image maps) — where neither selectors,
+`js(...)`, nor the container-coords technique can reach — coordinate-clicking requires the
+vision-click loop: screenshot → model reads pixels → derive `(x, y)` → `click_at_xy(x, y)`.
+This works fully on pi when the session model is vision-capable (configured with
+`"input": ["text", "image"]`): pi's `read` tool passes the screenshot to the model, the model
+sees it natively, and the click coordinates are accurate. Run browser-heavy vision work on a
+vision-capable session (start pi on a vision model, or switch and begin a new turn). On a text
+model this path is unavailable — fall back to `js(...)` / container-coords where possible.
