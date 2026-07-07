@@ -36,7 +36,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -u
-          families="git-tools quality workspace work design solana-dev vps-deploy x-api"
+          families="git-tools quality workspace work design solana-dev vps-deploy x-api browser"
           published_any=false
           for family in $families; do
             pkg="@getpipher/$family"
