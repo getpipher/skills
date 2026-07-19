@@ -11,29 +11,43 @@ Direct browser control via CDP, attached to your **real Chrome** → existing lo
 Backed by the `browser-use` CLI (PyPI package `browser_harness`; docs/self-id call it
 `browser-harness`, but the **installed command is `browser-use`**, shorthand `bu`).
 
-## ⚠️ Preconditions — verify before any browser work
+## ⚠️ Preconditions — verify by *running a command*, not the doctor
+
+`browser-use --doctor` is a **misleading preflight**. Validated 2026-07-19:
+`active browser connections — 0` is a **false negative** — the daemon connects fine
+anyway, and the DevTools HTTP endpoint (`curl 127.0.0.1:9222/json/version` → `404`)
+can look wedged while `page_info()` / `new_tab()` work perfectly. Do **not** gate on the
+doctor's connection count, and do **not** restart Chrome to "fix" a 0-connection reading.
+
+The real preflight is to **run one actual command**:
 
 ```bash
-browser-use --doctor
+browser-use <<'PY'
+print(page_info())
+PY
 ```
 
-Must show:
-- `[ok] chrome running`
-- `[ok] daemon alive`
-- `[ok] active browser connections` — **≥ 1**
+If it prints a URL/title dict, you're connected — proceed. If it errors, *then*
+investigate. This same first call is also what triggers Chrome's **"Allow remote
+debugging?" popup** the first time (validated 2026-07-19: the popup fired on the first
+`new_tab()`, not from the `chrome://inspect` toggle). So the manual toggle dance below
+is usually unnecessary — skip it unless a real command errors with a connection /
+permission failure.
 
-### 1. Chrome remote-debugging (HUMAN step, once)
+### Chrome remote-debugging (fallback only — rarely needed)
 
-If doctor shows `active browser connections — 0`:
+Only if an actual `browser-use` command errors with a remote-debugging / permission
+failure:
 
 1. In Chrome, open `chrome://inspect/#remote-debugging`
 2. Tick **"Allow remote debugging for this browser instance"**
 3. Click **Allow** on the popup that appears
-4. Re-run `browser-use --doctor` → connections ≥ 1
+4. Retry the actual command (not the doctor)
 
-No `--remote-debugging-port` flag / Chrome restart needed — v3 uses Chrome's built-in toggle.
-The "Chrome is being controlled by automated test software" banner is normal — it just means
-CDP is attached; leave it (turning it off disables remote-debug).
+No `--remote-debugging-port` flag / Chrome restart needed — v3 uses Chrome's built-in
+toggle, and the popup is best triggered by the harness's own attach, not the toggle UI.
+The "Chrome is being controlled by automated test software" banner is normal — it just
+means CDP is attached; leave it (turning it off disables remote-debug).
 
 ### 2. Vision-capable model (for the coordinate-click loop)
 
