@@ -76,17 +76,27 @@ The sections below are the **pi-specific delta only**.
 
 ## Core loop — local/staging QA
 
+**Tab model (important — don't litter tabs):** open **one** tab per task with
+`new_tab(url)`, then **reuse that same tab** with `goto_url(url)` for every
+subsequent navigation. Do **not** call `new_tab()` per hop — that opens a new tab
+on every navigation and litters the user's Chrome. Close the tab you opened when
+the task ends.
+
 ```bash
 browser-use <<'PY'
 ensure_real_tab()
-new_tab("http://localhost:3000")   # first nav is new_tab(), NOT goto_url()
+new_tab("http://localhost:3000")   # ONE tab per task — open with new_tab()...
 wait_for_load()
 print(page_info())
 capture_screenshot("/tmp/browsershot.png")
+# ...later in the SAME task, reuse it — do NOT new_tab() again:
+# goto_url("http://localhost:3000/login")
 PY
 ```
 
 - Helpers are pre-imported inside the heredoc; the daemon auto-starts.
+- `new_tab(url)` opens a fresh tab and focuses it; `goto_url(url)` navigates the
+  current tab in place. Use `new_tab()` **once** per task, `goto_url()` thereafter.
 - Click = screenshot → derive `(x,y)` → `click_at_xy(x,y)` → screenshot to confirm.
 - Analyze the screenshot natively (vision model) or via the `describe_image` tool (text model).
 - For DOM-bound work (text extraction, form values) prefer `js(...)` over coordinates.
@@ -112,7 +122,10 @@ PY
 
 ## Safety (policy — enforced in prose)
 
-- **Never reuse the user's visible tab** — always `new_tab(...)`; close what you opened.
+- **Never hijack the user's visible tab** — open your **own** tab **once** per task
+  with `new_tab()`, then **reuse that same tab** with `goto_url()` for every
+  subsequent navigation. Calling `new_tab()` per hop litters the user's Chrome with
+  tabs — don't. Close the tab you opened when the task ends.
 - **Login walls:** stop and ask. Exception: if Chrome is already SSO'd, use it — but still
   stop for passwords, MFA, consent prompts, or ambiguous account choice.
 - **Destructive actions** (submit/delete/publish): confirm with the user first.
