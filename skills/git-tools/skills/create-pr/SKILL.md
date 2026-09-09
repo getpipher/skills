@@ -1,11 +1,9 @@
 ---
 name: git-tools-create-pr
 description: Create a pull request (GitHub) or merge request (GitLab) from FROM branch to TO branch
-argument-hint: <FROM_BRANCH> <TO_BRANCH> [--github|--gitlab]
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
-Bismillah! I'll create a pull request/merge request with the provided arguments: $ARGUMENTS
+Bismillah! I'll create a pull request/merge request with the arguments supplied when invoking this skill.
 
 I need to parse the arguments as: FROM_BRANCH TO_BRANCH [--github|--gitlab]
 
@@ -21,11 +19,12 @@ I need to parse the arguments as: FROM_BRANCH TO_BRANCH [--github|--gitlab]
 
 ```bash
 # Parse platform flag from arguments
-if [[ "$ARGUMENTS" == *"--gitlab"* ]]; then
+ARGS="<FROM_BRANCH TO_BRANCH and platform flags supplied when invoking this skill>"
+if [[ "$ARGS" == *"--gitlab"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     PR_TYPE="merge request"
-elif [[ "$ARGUMENTS" == *"--github"* ]]; then
+elif [[ "$ARGS" == *"--github"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     PR_TYPE="pull request"
@@ -41,7 +40,7 @@ echo "📌 Platform: $PLATFORM ($PR_TYPE)"
 
 ## Using with Thinking Mode
 
-When executing this command with **mode: think**, I will:
+If an extended-reasoning mode is available in your environment, use it for this task. When running with extended reasoning, I will:
 
 - Analyze the commit history between FROM_BRANCH and TO_BRANCH for context
 - Review all changed files to understand the scope and impact of modifications
@@ -88,7 +87,7 @@ Let me:
 
    - Generate meaningful PR/MR title based on recent commits
    - Create comprehensive description with changes summary
-   - **IMPORTANT**: Mention '@claude' in the PR/MR description and request review with specific focus areas:
+   - **IMPORTANT**: If `$REVIEWER_BOT` is set (a GitHub/GitLab user or app that reviews PRs), mention `@$REVIEWER_BOT` in the PR/MR description and request review with specific focus areas:
      - Critical code changes and their impact
      - Architecture decisions and patterns
      - Security considerations
@@ -102,13 +101,13 @@ Let me:
 
 ```bash
 # Create PR on GitHub (default)
-/git:create-pr dev main
+Invoke with: git-tools-create-pr dev main
 
 # Create PR on GitHub (explicit)
-/git:create-pr dev main --github
+Invoke with: git-tools-create-pr dev main --github
 
 # Create MR on GitLab
-/git:create-pr dev main --gitlab
+Invoke with: git-tools-create-pr dev main --gitlab
 ```
 
 Let me execute these steps now.

@@ -1,8 +1,6 @@
 ---
 name: design-analyze
 description: Analyze any website's UI/UX and generate AI-friendly prompts (read-only, safe anywhere)
-argument-hint: "<website-url>"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Design Analysis & Prompt Generator
@@ -13,7 +11,7 @@ allowed-tools: ["bash", "read", "write", "edit"]
 
 **Safety:** ✅ Read-only operation, no file modifications, no git commands, no bash execution
 
-**Usage:** `/design:analyze <website-url>`
+**Usage:** design-analyze <website-url>
 
 ---
 
@@ -21,7 +19,7 @@ allowed-tools: ["bash", "read", "write", "edit"]
 
 ### Input:
 ```
-/design:analyze https://example.com
+design-analyze https://example.com
 ```
 
 ### Process:
@@ -41,7 +39,7 @@ allowed-tools: ["bash", "read", "write", "edit"]
 
 ---
 
-## Instructions for Claude
+## Instructions for the agent
 
 When this command is invoked with a URL:
 
@@ -317,7 +315,7 @@ Present findings using this structure:
 
 ### Example 1: Analyzing Linear
 ```bash
-/design:analyze https://linear.app
+design-analyze https://linear.app
 ```
 
 **Expected Output:**
@@ -328,7 +326,7 @@ Present findings using this structure:
 
 ### Example 2: Analyzing Ideabrowser
 ```bash
-/design:analyze https://ideabrowser.com
+design-analyze https://ideabrowser.com
 ```
 
 **Expected Output:**
@@ -339,7 +337,7 @@ Present findings using this structure:
 
 ### Example 3: Analyzing Competitor
 ```bash
-/design:analyze https://competitor-product.com
+design-analyze https://competitor-product.com
 ```
 
 **Expected Output:**
@@ -369,15 +367,15 @@ This command is **100% safe** because:
 ### 🎯 Building New Products
 ```bash
 # Find inspiration from the best
-/design:analyze https://linear.app
-/design:analyze https://stripe.com
+design-analyze https://linear.app
+design-analyze https://stripe.com
 # Get AI prompts to build similar quality
 ```
 
 ### 🔍 Competitive Analysis
 ```bash
 # Study competitor designs
-/design:analyze https://competitor.com
+design-analyze https://competitor.com
 # Extract their patterns
 # Build yours better
 ```
@@ -385,7 +383,7 @@ This command is **100% safe** because:
 ### 📚 Learning Design
 ```bash
 # Analyze award-winning sites
-/design:analyze https://awwwards-winner.com
+design-analyze https://awwwards-winner.com
 # Understand what makes great design
 # Build pattern library
 ```
@@ -393,7 +391,7 @@ This command is **100% safe** because:
 ### ⚡ Quick Prototyping
 ```bash
 # See a design you like
-/design:analyze https://cool-site.com
+design-analyze https://cool-site.com
 # Get instant AI prompts
 # Paste into builder (Anything, v0, etc.)
 ```

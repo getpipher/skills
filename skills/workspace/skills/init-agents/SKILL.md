@@ -1,15 +1,13 @@
 ---
 name: workspace-init-agents
 description: Create or improve a project AGENTS.md with intelligent codebase analysis. Host-neutral satellite context file read by Claude Code, Pi, and any AGENTS.md-aware agent.
-argument-hint: ""
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # AGENTS.md Initialization (project satellite)
 
 Bismillah! I'll analyze this codebase and create (or improve) a project `AGENTS.md` — the cross-tool context file that Claude Code, Pi, and any `AGENTS.md`-aware agent read on startup.
 
-> **Hub / satellite model.** This skill generates a **satellite**: a host-neutral file describing *this repo*. It extends — never duplicates — the **global hub** (`~/.claude/CLAUDE.md` / `~/.pi/agent/AGENTS.md`), which already carries persona, dev standards, git conventions, secret rules, etc. A satellite holds **only project-specific** content (overview, architecture, commands, conventions, gotchas). No identity, no generic standards, no host-specific tooling — those belong to the hub.
+> **Hub / satellite model.** This skill generates a **satellite**: a host-neutral file describing *this repo*. It extends — never duplicates — the **global hub** (your global agent context file), which already carries persona, dev standards, git conventions, secret rules, etc. A satellite holds **only project-specific** content (overview, architecture, commands, conventions, gotchas). No identity, no generic standards, no host-specific tooling — those belong to the hub.
 
 ---
 
@@ -94,7 +92,7 @@ Information that requires reading **multiple files** to understand:
 Use this structure (omit sections if not applicable):
 
 ```
-<!-- Satellite context file — extends the global hub (~/.claude/CLAUDE.md | ~/.pi/agent/AGENTS.md). Host-neutral; project-specific only. Do not duplicate hub standards here. -->
+<!-- Satellite context file — extends your global agent context file (the hub). Host-neutral; project-specific only. Do not duplicate hub standards here. -->
 
 # {Project Name}
 

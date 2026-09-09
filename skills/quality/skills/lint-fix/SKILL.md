@@ -1,15 +1,13 @@
 ---
 name: quality-lint-fix
 description: Run linter and auto-fix all issues in the project
-argument-hint: "[--backup] [--check-only] [file-pattern]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Project Linter and Auto-Fix
 
 Bismillah! I'll run appropriate linters and auto-fix all issues in your project.
 
-Arguments provided: $ARGUMENTS
+Arguments: [--backup] [--check-only] [file-pattern] — the target paths/globs supplied when invoking this skill.
 
 ## Implementation Steps
 
@@ -118,11 +116,9 @@ If no linter configuration found:
 
 Support file pattern arguments:
 
-```bash
-/lint-fix "src/**/*.js"     # Only JavaScript files in src
-/lint-fix "*.py"            # Only Python files in root
-/lint-fix --check-only      # Report issues without fixing
-```
+Invoke with: `quality-lint-fix "src/**/*.js"` — only JavaScript files in src
+Invoke with: `quality-lint-fix "*.py"` — only Python files in root
+Invoke with: `quality-lint-fix --check-only` — report issues without fixing
 
 ### Git Integration
 
@@ -152,29 +148,18 @@ The command completes successfully when:
 
 ## Usage Examples
 
-```bash
-# Basic usage - fix everything
-/lint-fix
-
-# Create backup before fixing
-/lint-fix --backup
-
-# Check issues without fixing
-/lint-fix --check-only
-
-# Fix specific file pattern
-/lint-fix "src/**/*.ts"
-
-# Fix only staged git files
-/lint-fix --staged
-```
+Invoke with: `quality-lint-fix` — basic usage, fix everything
+Invoke with: `quality-lint-fix --backup` — create backup before fixing
+Invoke with: `quality-lint-fix --check-only` — check issues without fixing
+Invoke with: `quality-lint-fix "src/**/*.ts"` — fix specific file pattern
+Invoke with: `quality-lint-fix --staged` — fix only staged git files
 
 ## Integration with Other Commands
 
 Works well with:
 
-- `/commit` - Lint before committing
-- `/create-pr` - Ensure clean code before PR
-- `/test-runner` - Lint as part of CI pipeline
+- `git-tools-commit` — lint before committing
+- `git-tools-create-pr` — ensure clean code before PR
+- CI lint jobs — lint as part of CI pipeline
 
 This command provides comprehensive, intelligent linting that adapts to your project structure and available tools. Alhamdulillah, it will help maintain consistent code quality across different languages and frameworks!

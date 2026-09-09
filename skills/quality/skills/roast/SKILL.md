@@ -1,15 +1,13 @@
 ---
 name: quality-roast
 description: Brutal pre-production code audit that roasts lazy shortcuts, security red flags, scalability issues, and "fix it later" implementations
-argument-hint: "[--no-mercy] [--save-roast]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Code Roast: Pre-Production Audit
 
 Bismillah! Time to put this codebase through the fire. No participation trophies, no gentle suggestions - just raw, unfiltered truth about what would make senior engineers cringe.
 
-**Arguments provided**: $ARGUMENTS
+Arguments: [--no-mercy] [--save-roast] — the flags supplied when invoking this skill.
 
 ## What This Roast Covers
 
@@ -160,19 +158,10 @@ Check for portability issues:
 
 ## Usage Examples
 
-```bash
-# Standard roast
-/audit:roast
-
-# Full brutality
-/audit:roast --no-mercy
-
-# Save the shame for posterity
-/audit:roast --save-roast
-
-# Maximum damage
-/audit:roast --no-mercy --save-roast
-```
+Invoke with: `quality-roast` — standard roast
+Invoke with: `quality-roast --no-mercy` — full brutality
+Invoke with: `quality-roast --save-roast` — save the shame for posterity
+Invoke with: `quality-roast --no-mercy --save-roast` — maximum damage
 
 ## The Roast Philosophy
 

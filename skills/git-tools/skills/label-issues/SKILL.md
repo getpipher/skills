@@ -1,15 +1,13 @@
 ---
 name: git-tools-label-issues
 description: Intelligently analyze and label unlabeled GitHub issues (works with any repo)
-argument-hint: "[--dry-run] [--limit N]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Auto-Label Issues - Intelligent Issue Organization
 
 Bismillah! I'll analyze unlabeled or incompletely labeled GitHub issues and suggest appropriate labels based on content analysis.
 
-Arguments provided: $ARGUMENTS
+Arguments: [--dry-run] [--limit N]
 
 ## Safety & Compatibility
 
@@ -60,16 +58,17 @@ echo "✅ Repository: $REPO"
 
 ```bash
 # Parse arguments
+ARGS="<--dry-run / --limit flags supplied when invoking this skill>"
 DRY_RUN=false
 LIMIT=50
 
-if echo "$ARGUMENTS" | grep -q -- "--dry-run"; then
+if echo "$ARGS" | grep -q -- "--dry-run"; then
     DRY_RUN=true
     echo "🔍 DRY RUN MODE - No labels will be applied"
 fi
 
-if echo "$ARGUMENTS" | grep -q -- "--limit"; then
-    LIMIT=$(echo "$ARGUMENTS" | grep -o -- "--limit [0-9]\+" | grep -o "[0-9]\+")
+if echo "$ARGS" | grep -q -- "--limit"; then
+    LIMIT=$(echo "$ARGS" | grep -o -- "--limit [0-9]\+" | grep -o "[0-9]\+")
 fi
 
 # Fetch issues without labels (or with incomplete labels)
@@ -183,16 +182,16 @@ I use intelligent pattern matching that adapts to ANY repository:
 
 ```bash
 # Preview what labels would be applied (safe, no changes)
-/git:label-issues --dry-run
+Invoke with: git-tools-label-issues --dry-run
 
 # Preview first 10 issues only
-/git:label-issues --dry-run --limit 10
+Invoke with: git-tools-label-issues --dry-run --limit 10
 
 # Apply labels to unlabeled issues (asks for confirmation)
-/git:label-issues
+Invoke with: git-tools-label-issues
 
 # Apply labels to first 20 issues
-/git:label-issues --limit 20
+Invoke with: git-tools-label-issues --limit 20
 ```
 
 ## Output Format
@@ -269,7 +268,7 @@ For repos with many issues:
 Remember user corrections:
 - Track which suggestions were accepted/rejected
 - Improve future suggestions
-- Store in your host's cache dir: `.claude/cache/label-patterns.json` (CC) or `~/.pi/agent/cache/label-patterns.json` (pi) — optional. Detect host via `PI_CODING_AGENT=true` (pi) being set.
+- Store in $LABEL_CACHE_DIR (default ~/.cache/label-patterns.json) — optional.
 
 ## Integration with Workflows
 

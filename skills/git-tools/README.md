@@ -1,6 +1,6 @@
 # @getpipher/git-tools
 
-Git workflow skills for [pi](https://github.com/earendil-works/pi-coding-agent) — issue creation, intelligent labeling, PR auditing, and issue solving across GitHub and GitLab.
+Git workflow skills for any coding agent — issue creation, intelligent labeling, PR auditing, and issue solving across GitHub and GitLab.
 
 ## Skills
 
@@ -20,10 +20,14 @@ Git workflow skills for [pi](https://github.com/earendil-works/pi-coding-agent) 
 ## Install
 
 ```bash
+# Install as a pi package
 pi install npm:@getpipher/git-tools
+
+# Or add the skills to any coding agent via the skills CLI
+npx skills add getpipher/git-tools
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent). Org-aware skills (`pr-audit`, `solve`, `label-issues`) read your `approvedOrgs`/`owned_orgs` from config — no orgs are assumed by default.
+Works with any coding agent. Org-aware skills (`pr-audit`, `solve`, `label-issues`) detect your organization from the repo's git remote — no orgs are assumed by default.
 
 ## License
 

@@ -1,12 +1,11 @@
 ---
 name: git-tools-get-pr-review
 description: Retrieve and analyze PR/MR review feedback to improve code quality
-argument-hint: "[PR_NUMBER_OR_URL] [--github|--gitlab]"
 ---
 
 Bismillah! I'll retrieve and analyze the PR/MR review feedback to help you improve your code based on the reviewer's suggestions.
 
-Arguments provided: $ARGUMENTS
+Arguments: [PR_NUMBER_OR_URL] [--github|--gitlab]
 
 ## Platform Selection
 
@@ -23,19 +22,20 @@ Arguments provided: $ARGUMENTS
 
 ```bash
 # Parse platform flag or auto-detect from URL
-if [[ "$ARGUMENTS" == *"--gitlab"* ]]; then
+ARGS="<PR number or URL and platform flags supplied when invoking this skill>"
+if [[ "$ARGS" == *"--gitlab"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     REVIEW_TYPE="merge request"
-elif [[ "$ARGUMENTS" == *"--github"* ]]; then
+elif [[ "$ARGS" == *"--github"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     REVIEW_TYPE="pull request"
-elif [[ "$ARGUMENTS" == *"gitlab.com"* ]]; then
+elif [[ "$ARGS" == *"gitlab.com"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     REVIEW_TYPE="merge request"
-elif [[ "$ARGUMENTS" == *"github.com"* ]]; then
+elif [[ "$ARGS" == *"github.com"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     REVIEW_TYPE="pull request"
@@ -49,9 +49,9 @@ fi
 echo "📌 Platform: $PLATFORM ($REVIEW_TYPE review)"
 ```
 
-## Using with Thinking Mode: **mode: think hard**
+## Using with Extended Reasoning
 
-When executing this command with **mode: think hard**, I will perform an exceptionally deep and comprehensive analysis:
+If an extended-reasoning mode is available in your environment, use it for this task. When running with extended reasoning, I will perform an exceptionally deep and comprehensive analysis:
 
 ### **Advanced Review Analysis**
 
@@ -95,12 +95,12 @@ Let me:
    - Retrieve all review threads, suggestions, and approval status
 
 2. **Analyze the review feedback comprehensively**
-   - Identify Claude agent reviews vs. human reviews for specialized handling
+   - Identify automated/bot reviews vs. human reviews for specialized handling
    - Categorize feedback by type (bugs, improvements, style, architecture, security)
    - Distinguish between critical issues that must be addressed vs. suggestions
    - Extract specific code locations and recommended changes with line numbers
    - Assess overall review sentiment and approval likelihood
-   - Parse Claude agent's structured feedback format and recommendations
+   - Parse the automated reviewer's structured feedback format and recommendations
 
 3. **Create actionable improvement plan**
    - Prioritize feedback items by impact and effort required
@@ -110,9 +110,9 @@ Let me:
 
 4. **Provide clear recommendations**
    - If review is positive: Highlight what's working well, celebrate good practices, note minor improvements
-   - If Claude agent found the code satisfactory: Summarize positive aspects and readiness for merge
+   - If the automated reviewer found the code satisfactory: Summarize positive aspects and readiness for merge
    - If review needs work: Create step-by-step action items with specific code examples
-   - For Claude agent feedback: Interpret AI suggestions in context of best practices
+   - For automated-reviewer feedback: Interpret AI suggestions in context of best practices
    - Suggest response strategy for reviewer comments and how to address concerns
    - Estimate time and complexity for implementing each change
    - Recommend whether to request re-review after changes
@@ -140,13 +140,17 @@ Let me:
 
 8. **Conditional re-review request (SMART EXECUTION)**
 
-   **IF changes were made:**
-   - MANDATORY: Post re-review request comment using appropriate CLI
-   - Use exact format: "@claude I've addressed the review feedback. Please re-review the changes:"
+   **IF changes were made AND `$REVIEWER_BOT` is set** (a GitHub/GitLab user or app that reviews PRs):
+   - Post re-review request comment using appropriate CLI
+   - Use exact format: "@$REVIEWER_BOT I've addressed the review feedback. Please re-review the changes:"
    - Include specific changes made with file:line references
    - List all modified files
    - End with "**Ready for re-review** ✅"
    - Verify comment was posted successfully
+
+   **IF changes were made but `$REVIEWER_BOT` is NOT set:**
+   - Report completion to the user only - NO PR/MR comment needed
+   - Provide a summary of the changes made
 
    **IF NO changes were made:**
    - Report to user only - NO PR/MR comment needed
@@ -165,15 +169,15 @@ Let me:
        CHANGES_MADE=true
    fi
 
-   # Final decision - only ping @claude if changes exist
-   if [ "$CHANGES_MADE" = true ]; then
+   # Final decision - only post a re-review comment if changes exist AND a reviewer bot is configured
+   if [ "$CHANGES_MADE" = true ] && [ -n "${REVIEWER_BOT:-}" ]; then
        if [ "$PLATFORM" = "github" ]; then
-           gh pr comment $PR_NUMBER --body "@claude I've addressed the review feedback..."
+           gh pr comment $PR_NUMBER --body "@$REVIEWER_BOT I've addressed the review feedback..."
        else
-           glab mr note $MR_NUMBER --message "@claude I've addressed the review feedback..."
+           glab mr note $MR_NUMBER --message "@$REVIEWER_BOT I've addressed the review feedback..."
        fi
    else
-       echo "✅ Analysis complete: No improvements required - reporting to user only"
+       echo "✅ Analysis complete - reporting to user only"
    fi
    ```
 
@@ -187,19 +191,19 @@ Let me:
 
 ```bash
 # Get GitHub PR review (default)
-/git:get-pr-review 42
+Invoke with: git-tools-get-pr-review 42
 
 # Get GitHub PR review (explicit)
-/git:get-pr-review 123 --github
+Invoke with: git-tools-get-pr-review 123 --github
 
 # Get GitLab MR review
-/git:get-pr-review 45 --gitlab
+Invoke with: git-tools-get-pr-review 45 --gitlab
 
 # Auto-detect from GitHub URL
-/git:get-pr-review https://github.com/owner/repo/pull/15
+Invoke with: git-tools-get-pr-review https://github.com/owner/repo/pull/15
 
 # Auto-detect from GitLab URL
-/git:get-pr-review https://gitlab.com/owner/repo/-/merge_requests/45
+Invoke with: git-tools-get-pr-review https://gitlab.com/owner/repo/-/merge_requests/45
 ```
 
 Alhamdulillah, let me fetch and analyze the review feedback to help you create an excellent PR/MR!

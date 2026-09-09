@@ -1,6 +1,6 @@
 # @getpipher/quality
 
-linting/fixing, TypeScript strict checks, production-readiness audit, multi-persona QA, and a brutal pre-prod code roast. Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+Code quality skills for any coding agent — linting/fixing, TypeScript strict checks, production-readiness audit, multi-persona QA, and a brutal pre-prod code roast.
 
 ## Skills
 
@@ -15,10 +15,14 @@ linting/fixing, TypeScript strict checks, production-readiness audit, multi-pers
 ## Install
 
 ```bash
+# Install as a pi package
 pi install npm:@getpipher/quality
+
+# Or add the skills to any coding agent via the skills CLI
+npx skills add getpipher/quality
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Works with any coding agent. `quality-qa` degrades gracefully — sequential personas when sub-agents aren't available, user-provided screenshots when no browser tool is.
 
 ## License
 

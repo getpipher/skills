@@ -53,8 +53,11 @@ For local pi development, point at this repo root (loads every family at once):
 | [`@getpipher/solana-dev`](skills/solana-dev) | `solana-dev` | 1 | End-to-end Solana dev playbook |
 | [`@getpipher/vps-deploy`](skills/vps-deploy) | `vps-deploy` | 1 | Docker/nginx/SSL/SSH/CI-CD for shared VPS |
 | [`@getpipher/x-api`](skills/x-api) | `x-api` | 1 | X/Twitter API v2 reference + cost guard |
+| [`@getpipher/browser`](skills/browser) | `browser` | 1 | Browser automation via browser-use CDP CLI — vision-click loop + DOM fallback |
 
 > `solana-defi/` (37 per-protocol SDK references) is deferred to a later release.
+
+All skill content follows [CONVENTIONS.md](CONVENTIONS.md) — skills are harness-agnostic (any coding-agent host) and install through either path above.
 
 ## Repository layout
 

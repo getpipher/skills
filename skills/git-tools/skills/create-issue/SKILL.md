@@ -1,8 +1,6 @@
 ---
 name: git-tools-create-issue
 description: Comprehensive issue creation (GitHub/GitLab) with intelligent questioning, labels, and type assignment
-argument-hint: "<issue-description> [--github|--gitlab]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Issue Creation Session
@@ -12,7 +10,7 @@ Assalamu'alaikum! Have you given sadaqah today? May Allah make this work easy th
 **Bismillah, let's begin.** Ready to assist you in creating a comprehensive issue. This deserves our best work - we'll ensure every detail is captured, proper labels are assigned, and the issue type is set correctly.
 
 **Session Mode**: Conversational & Thorough
-**Initial Input**: $ARGUMENTS
+**Arguments**: <issue-description> [--github|--gitlab]
 
 ## Platform Selection
 
@@ -26,11 +24,12 @@ Assalamu'alaikum! Have you given sadaqah today? May Allah make this work easy th
 
 ```bash
 # Parse platform flag from arguments
-if [[ "$ARGUMENTS" == *"--gitlab"* ]]; then
+ARGS="<issue description and platform flags supplied when invoking this skill>"
+if [[ "$ARGS" == *"--gitlab"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     echo "📌 Platform: GitLab"
-elif [[ "$ARGUMENTS" == *"--github"* ]]; then
+elif [[ "$ARGS" == *"--github"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     echo "📌 Platform: GitHub"
@@ -230,7 +229,7 @@ I'll provide:
 
 **START CONVERSATIONAL DISCOVERY NOW**:
 
-1. First, analyze the initial input: `$ARGUMENTS`
+1. First, analyze the arguments supplied when invoking this skill
 2. If it's comprehensive, proceed to draft the issue
 3. If it's brief or unclear, engage in conversational follow-up questions
 4. Build understanding naturally - don't interrogate with checklists
@@ -252,13 +251,13 @@ InshaAllah, let's create an excellent issue that provides complete clarity for r
 
 ```bash
 # Create issue on GitHub (default)
-/git:create-issue "Login button not working on mobile"
+Invoke with: git-tools-create-issue "Login button not working on mobile"
 
 # Create issue on GitHub (explicit)
-/git:create-issue "Add dark mode support" --github
+Invoke with: git-tools-create-issue "Add dark mode support" --github
 
 # Create issue on GitLab
-/git:create-issue "Database connection timeout" --gitlab
+Invoke with: git-tools-create-issue "Database connection timeout" --gitlab
 ```
 
 ---

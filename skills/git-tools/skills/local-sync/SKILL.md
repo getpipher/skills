@@ -1,13 +1,11 @@
 ---
 name: git-tools-local-sync
 description: Comprehensive git synchronization - fetch all remotes, update all branches, and ensure local repo matches remote completely (dual-remote aware)
-argument-hint: "[--cleanup] [--create-missing] [--force] [--prefer-remote <name>]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 Bismillah! I'll perform a comprehensive synchronization of your local repository with all remote repositories to ensure nothing is left behind.
 
-Arguments provided: $ARGUMENTS
+Arguments: [--cleanup] [--create-missing] [--force] [--prefer-remote <name>]
 
 ## Comprehensive Local-Remote Synchronization (Dual-Remote Aware)
 
@@ -25,6 +23,9 @@ This command ensures your local repository is completely synchronized with all r
 **Step 1: Pre-sync Repository Analysis & Remote Detection**
 
 ```bash
+# Flags supplied when invoking this skill
+ARGS="<sync flags from the invocation arguments>"
+
 echo "📊 **Repository Analysis**"
 echo ""
 
@@ -190,12 +191,12 @@ fi
 **Step 6: Create Missing Local Branches (if --create-missing)**
 
 ```bash
-if [[ "$ARGUMENTS" == *"--create-missing"* ]]; then
+if [[ "$ARGS" == *"--create-missing"* ]]; then
     echo "📝 **Creating local tracking branches...**"
 
     # Determine preferred remote
     prefer_remote="origin"
-    if [[ "$ARGUMENTS" =~ --prefer-remote[[:space:]]+([^[:space:]]+) ]]; then
+    if [[ "$ARGS" =~ --prefer-remote[[:space:]]+([^[:space:]]+) ]]; then
         prefer_remote="${BASH_REMATCH[1]}"
     fi
     echo "  Preferred remote: $prefer_remote"
@@ -227,7 +228,7 @@ fi
 Check if branch exists on ANY remote before considering it obsolete.
 
 ```bash
-if [[ "$ARGUMENTS" == *"--cleanup"* ]]; then
+if [[ "$ARGS" == *"--cleanup"* ]]; then
     echo "🗑️  **Checking for obsolete local branches...**"
     echo ""
 
@@ -264,7 +265,7 @@ if [[ "$ARGUMENTS" == *"--cleanup"* ]]; then
         echo ""
         echo "Found ${#obsolete_branches[@]} obsolete branch(es)."
 
-        if [[ "$ARGUMENTS" == *"--force"* ]]; then
+        if [[ "$ARGS" == *"--force"* ]]; then
             for branch in "${obsolete_branches[@]}"; do
                 git branch -D "$branch" && echo "  Deleted: $branch"
             done
@@ -338,8 +339,8 @@ echo ""
 echo "✅ **Sync Summary:**"
 echo "  • Remotes fetched: ${#remotes[@]} (failed: ${#fetch_failed[@]})"
 echo "  • Current branch: $current_branch"
-echo "  • Cleanup: $(if [[ "$ARGUMENTS" == *"--cleanup"* ]]; then echo "Yes"; else echo "No (use --cleanup)"; fi)"
-echo "  • Create missing: $(if [[ "$ARGUMENTS" == *"--create-missing"* ]]; then echo "Yes"; else echo "No (use --create-missing)"; fi)"
+echo "  • Cleanup: $(if [[ "$ARGS" == *"--cleanup"* ]]; then echo "Yes"; else echo "No (use --cleanup)"; fi)"
+echo "  • Create missing: $(if [[ "$ARGS" == *"--create-missing"* ]]; then echo "Yes"; else echo "No (use --create-missing)"; fi)"
 echo ""
 echo "🚀 **Repository is now fully synchronized with all remotes!**"
 ```
@@ -348,22 +349,22 @@ echo "🚀 **Repository is now fully synchronized with all remotes!**"
 
 ```bash
 # Basic synchronization (all remotes)
-/local-sync
+Invoke with: git-tools-local-sync
 
 # Sync and create local branches for all new remote branches
-/local-sync --create-missing
+Invoke with: git-tools-local-sync --create-missing
 
 # Sync and create branches, preferring gitlab as source
-/local-sync --create-missing --prefer-remote gitlab
+Invoke with: git-tools-local-sync --create-missing --prefer-remote gitlab
 
 # Sync and clean up obsolete local branches (checks ALL remotes)
-/local-sync --cleanup
+Invoke with: git-tools-local-sync --cleanup
 
 # Complete sync with all options
-/local-sync --create-missing --cleanup
+Invoke with: git-tools-local-sync --create-missing --cleanup
 
 # Force sync (override local changes, auto-delete obsolete)
-/local-sync --force --cleanup
+Invoke with: git-tools-local-sync --force --cleanup
 ```
 
 ### Dual-Remote Behavior

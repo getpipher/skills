@@ -1,10 +1,9 @@
 ---
 name: git-tools-merge-pr
 description: Merge a pull request (GitHub) or merge request (GitLab) by number or URL with configurable merge strategy
-argument-hint: <PR_NUMBER_OR_URL> [merge|squash|rebase] [--delete-branch] [--github|--gitlab]
 ---
 
-Bismillah! I'll merge the specified pull request/merge request with the provided arguments: $ARGUMENTS
+Bismillah! I'll merge the specified pull request/merge request with the arguments supplied when invoking this skill.
 
 ## Platform Selection
 
@@ -21,19 +20,20 @@ Bismillah! I'll merge the specified pull request/merge request with the provided
 
 ```bash
 # Parse platform flag or auto-detect from URL
-if [[ "$ARGUMENTS" == *"--gitlab"* ]]; then
+ARGS="<PR number or URL, merge strategy, and flags supplied when invoking this skill>"
+if [[ "$ARGS" == *"--gitlab"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     PR_TYPE="merge request"
-elif [[ "$ARGUMENTS" == *"--github"* ]]; then
+elif [[ "$ARGS" == *"--github"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     PR_TYPE="pull request"
-elif [[ "$ARGUMENTS" == *"gitlab.com"* ]]; then
+elif [[ "$ARGS" == *"gitlab.com"* ]]; then
     PLATFORM="gitlab"
     CLI_TOOL="glab"
     PR_TYPE="merge request"
-elif [[ "$ARGUMENTS" == *"github.com"* ]]; then
+elif [[ "$ARGS" == *"github.com"* ]]; then
     PLATFORM="github"
     CLI_TOOL="gh"
     PR_TYPE="pull request"
@@ -49,7 +49,7 @@ echo "📌 Platform: $PLATFORM ($PR_TYPE)"
 
 ## Using with Thinking Mode
 
-When executing this command with **mode: think**, I will:
+If an extended-reasoning mode is available in your environment, use it for this task. When running with extended reasoning, I will:
 
 - Thoroughly review the PR content, including all changed files and their impact
 - Analyze the commit history to understand the development approach
@@ -68,7 +68,7 @@ Let me parse the arguments and merge the PR intelligently:
 
 ## **Argument Processing**
 
-**Input**: `$ARGUMENTS`
+**Input**: the arguments supplied when invoking this skill (PR number or URL, merge strategy, flags)
 
 I need to:
 
@@ -182,28 +182,28 @@ Short URLs and redirects supported for both platforms.
 
 ```bash
 # Merge PR by number on GitHub (default)
-/git:merge-pr 3
+Invoke with: git-tools-merge-pr 3
 
 # Merge PR by number with squash on GitHub
-/git:merge-pr 3 squash
+Invoke with: git-tools-merge-pr 3 squash
 
 # Merge PR by GitHub URL (auto-detected)
-/git:merge-pr https://github.com/user/repo/pull/15 rebase
+Invoke with: git-tools-merge-pr https://github.com/user/repo/pull/15 rebase
 
 # Merge MR on GitLab by number
-/git:merge-pr 45 --gitlab
+Invoke with: git-tools-merge-pr 45 --gitlab
 
 # Merge MR by GitLab URL (auto-detected)
-/git:merge-pr https://gitlab.com/user/repo/-/merge_requests/45
+Invoke with: git-tools-merge-pr https://gitlab.com/user/repo/-/merge_requests/45
 
 # Merge with explicit merge commit on GitHub
-/git:merge-pr 7 merge --github
+Invoke with: git-tools-merge-pr 7 merge --github
 
 # Merge and delete the branch after merge
-/git:merge-pr 3 squash --delete-branch
+Invoke with: git-tools-merge-pr 3 squash --delete-branch
 
 # Merge GitLab MR with rebase and delete branch
-/git:merge-pr 15 rebase --delete-branch --gitlab
+Invoke with: git-tools-merge-pr 15 rebase --delete-branch --gitlab
 ```
 
 ### Platform-Specific Merge Commands

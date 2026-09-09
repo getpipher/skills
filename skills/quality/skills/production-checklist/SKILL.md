@@ -1,8 +1,6 @@
 ---
 name: quality-production-checklist
 description: Analyze any codebase for production readiness with comprehensive security, performance, and deployment checklist
-argument-hint: "[--full-audit] [--export-report]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Production Readiness Checker (Universal)
@@ -243,7 +241,7 @@ Analyzes your codebase across 10 critical production dimensions:
 6. **Low Priority**: Polish items (comments, minor docs)
 7. **Action Plan**: Prioritized checklist with effort estimates
 
-### Phase 4: Generate Actionable TodoList
+### Phase 4: Generate Actionable Checklist
 
 **Output Format:**
 ```markdown
@@ -319,19 +317,10 @@ Analyzes your codebase across 10 critical production dimensions:
 
 ## Example Usage
 
-```bash
-# Quick scan (default)
-/production-checklist
-
-# Deep audit with detailed findings
-/production-checklist --full-audit
-
-# Generate exportable report
-/production-checklist --export-report
-
-# Both deep audit + export
-/production-checklist --full-audit --export-report
-```
+Invoke with: `quality-production-checklist` — quick scan (default)
+Invoke with: `quality-production-checklist --full-audit` — deep audit with detailed findings
+Invoke with: `quality-production-checklist --export-report` — generate exportable report
+Invoke with: `quality-production-checklist --full-audit --export-report` — both deep audit + export
 
 ## Output Example
 
