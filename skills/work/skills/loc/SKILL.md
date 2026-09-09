@@ -1,15 +1,13 @@
 ---
 name: work-loc
 description: Count lines of code (LOC) across multiple repositories using tokei
-argument-hint: "[repo-list|path|--summary]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # LOC Counter - Lines of Code Statistics
 
 Bismillah! Count lines of code across repositories or directories using `tokei`.
 
-Arguments provided: $ARGUMENTS
+Arguments: <repo-list|path> [--summary]
 
 ---
 
@@ -54,7 +52,8 @@ tokei .
 
 **For specific repos:**
 ```bash
-for repo in $ARGUMENTS; do
+REPOS="<repo names from the invocation arguments>"
+for repo in $REPOS; do
     path="${LOC_WORKSPACE:-$HOME/local-dev}/$repo"
     if [ -d "$path" ]; then
         echo "=== $repo ==="
@@ -92,19 +91,19 @@ After counting all repos, generate a markdown summary table with:
 
 ```bash
 # Count LOC in current directory
-/stats:loc
+work-loc
 
 # Count LOC in specific repos
-/stats:loc your-app your-api
+work-loc your-app your-api
 
 # Count with summary only (no per-language breakdown)
-/stats:loc --summary
+work-loc --summary
 
 # Count in absolute path
-/stats:loc /path/to/project
+work-loc /path/to/project
 
 # Count all your-org repos
-/stats:loc your-org
+work-loc your-org
 ```
 
 ---

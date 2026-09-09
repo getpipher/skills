@@ -1,6 +1,6 @@
 # @getpipher/work
 
-count LOC across multiple repositories via tokei. Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+Lines-of-code metrics — count LOC across multiple repositories via tokei. For any coding agent — install as a pi package or via npx skills add.
 
 ## Skill
 
@@ -14,7 +14,7 @@ count LOC across multiple repositories via tokei. Built for [pi](https://github.
 pi install npm:@getpipher/work
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Or, for any other coding agent: `npx skills add getpipher/skills`
 
 ## License
 
