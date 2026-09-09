@@ -1,4 +1,4 @@
-<!-- Satellite context file — extends the global hub (~/.claude/CLAUDE.md | ~/.pi/agent/AGENTS.md). Host-neutral; project-specific only. Do not duplicate hub standards here. -->
+<!-- Satellite context file — extends your global agent context file (the hub). Host-neutral; project-specific only. Do not duplicate hub standards here. -->
 
 # skills (getpipher arsenal)
 
@@ -40,7 +40,7 @@ Point at this repo root (loads every family at once) via the local `packages` pa
 
 ```
 skills/<family>/      # each family is a publishable @getpipher/* package
-  skills/<name>/SKILL.md   # on-demand skill files (read by pi when invoked)
+  skills/<name>/SKILL.md   # on-demand skill files (read when invoked by the host agent)
 ```
 
 ## Skill families
@@ -49,5 +49,5 @@ git-tools · quality · workspace · work · design · solana-dev · vps-deploy 
 
 ## Notes
 
-- Skills are read on demand by pi — no build step for the skill files themselves.
+- Skills are read on demand by the host agent — no build step for the skill files themselves.
 - Each family package is published to npm under the `@getpipher` scope.
