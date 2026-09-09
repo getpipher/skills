@@ -1,7 +1,6 @@
 ---
 name: vps-deploy
 description: Use when setting up new VPS projects, auditing VPS health, reviewing deploy workflows, debugging deployment issues, or hardening server security. Covers Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure.
-user-invocable: true
 ---
 
 # VPS Deployment & Operations

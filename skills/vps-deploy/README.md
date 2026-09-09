@@ -1,6 +1,6 @@
 # @getpipher/vps-deploy
 
-Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure. Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+VPS deployment & operations — Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure. For any coding agent — install as a pi package or via npx skills add.
 
 ## Skill
 
@@ -14,7 +14,7 @@ Docker, nginx, SSL, SSH, and CI/CD patterns for shared VPS infrastructure. Built
 pi install npm:@getpipher/vps-deploy
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Or, for any other coding agent: `npx skills add getpipher/skills`
 
 ## License
 
