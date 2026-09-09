@@ -1,17 +1,15 @@
 ---
 name: git-tools-commit
 description: Commit and push current changes to remote repository
-argument-hint: [commit message]
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 Bismillah! I'll commit and push the current changes to the remote repository.
 
-Arguments provided: $ARGUMENTS
+Arguments: [commit message] (optional)
 
 ## Using with Thinking Mode
 
-When executing this command with **mode: think**, I will:
+If an extended-reasoning mode is available in your environment, use it for this task. When running with extended reasoning, I will:
 
 - Analyze each changed file thoroughly before staging
 - Review the logical grouping of changes for better commit organization

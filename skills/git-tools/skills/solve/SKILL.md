@@ -1,15 +1,13 @@
 ---
 name: git-tools-solve
 description: Issue solver — creates conventional branch (feat/fix/chore), tackles issues serially, creates PR
-argument-hint: "[issues] [--org] [--pr] [--continue] [--github|--gitlab]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Solve - Conventional Branch Workflow
 
 Bismillah! I'll create a conventional branch, tackle issues serially, and create a PR at session end.
 
-Arguments provided: $ARGUMENTS
+Arguments: [issues] [--org] [--pr] [--continue] [--github|--gitlab]
 
 ---
 
@@ -36,25 +34,28 @@ base (main) ──┬── feat/add-rate-limiting → PR (closes #101, #104)
 ## Arguments
 
 ```bash
-/git:solve                     # Interactive: shows available issues
-/git:solve 101,104,107         # Pre-assigned issues
-/git:solve --org               # Show issues across ALL org repos
-/git:solve your-app#55,101      # Cross-repo issues (your-app#55 + current#101)
-/git:solve --continue           # Resume current branch session
-/git:solve --pr                 # Create PR for current branch (skip work)
-/git:solve --gitlab             # Use GitLab instead of GitHub
+Invoke with: git-tools-solve  # Interactive: shows available issues
+Invoke with: git-tools-solve 101,104,107  # Pre-assigned issues
+Invoke with: git-tools-solve --org  # Show issues across ALL org repos
+Invoke with: git-tools-solve your-app#55,101  # Cross-repo issues (your-app#55 + current#101)
+Invoke with: git-tools-solve --continue  # Resume current branch session
+Invoke with: git-tools-solve --pr  # Create PR for current branch (skip work)
+Invoke with: git-tools-solve --gitlab  # Use GitLab instead of GitHub
 ```
 
 **Parsing:**
 ```bash
+# Arguments supplied when invoking this skill
+ARGS="<issue numbers and flags from the invocation arguments>"
+
 # Extract issues (comma-separated, may include repo#issue format)
-ISSUES=$(echo "$ARGUMENTS" | grep -oE '[a-zA-Z0-9_-]*#?[0-9]+(,[a-zA-Z0-9_-]*#?[0-9]+)*' | head -1)
+ISSUES=$(echo "$ARGS" | grep -oE '[a-zA-Z0-9_-]*#?[0-9]+(,[a-zA-Z0-9_-]*#?[0-9]+)*' | head -1)
 
 # Flags
-CONTINUE_MODE=false && [[ "$ARGUMENTS" == *"--continue"* ]] && CONTINUE_MODE=true
-PR_ONLY=false && [[ "$ARGUMENTS" == *"--pr"* ]] && PR_ONLY=true
-GITLAB=false && [[ "$ARGUMENTS" == *"--gitlab"* ]] && GITLAB=true
-ORG_MODE=false && [[ "$ARGUMENTS" == *"--org"* ]] && ORG_MODE=true
+CONTINUE_MODE=false && [[ "$ARGS" == *"--continue"* ]] && CONTINUE_MODE=true
+PR_ONLY=false && [[ "$ARGS" == *"--pr"* ]] && PR_ONLY=true
+GITLAB=false && [[ "$ARGS" == *"--gitlab"* ]] && GITLAB=true
+ORG_MODE=false && [[ "$ARGS" == *"--org"* ]] && ORG_MODE=true
 
 CLI="gh" && [[ "$GITLAB" == true ]] && CLI="glab"
 
@@ -411,7 +412,7 @@ $COMMITS
 
 **Ask user:**
 - [Create PR now] → Create PR to base branch
-- [Later] → End session, can run `/git:solve --pr` later
+- [Later] → End session, can run `git-tools-solve --pr` later
 - [Continue working] → Add more issues
 
 ---
@@ -446,7 +447,7 @@ $COMMIT_LOG
 \`\`\`
 
 ---
-Created via \`/git:solve\`
+Created via \`git-tools-solve\`
 EOF
 )"
 
@@ -475,7 +476,7 @@ Issues:    $ISSUES
 PR:        $PR_URL
 Target:    $BASE_BRANCH
 
-Ready for /git:pr-audit to review and merge.
+Ready for git-tools-pr-audit to review and merge.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -486,18 +487,18 @@ Ready for /git:pr-audit to review and merge.
 
 ```bash
 # Show issues across all org repos (with WIP filtering)
-/git:solve --org
+Invoke with: git-tools-solve --org
 # Lists available issues from your-repo, your-website, your-app, etc.
 
 # Work on issues from multiple repos
-/git:solve your-app#55,your-website#30,101
+Invoke with: git-tools-solve your-app#55,your-website#30,101
 # Works on:
 #   - your-app issue #55
 #   - your-website issue #30
 #   - your-org/your-repo (current repo) issue #101
 
 # Cross-repo audit after solving
-/git:pr-audit --org
+Invoke with: git-tools-pr-audit --org
 # Reviews PRs across ALL org repos
 ```
 
@@ -549,7 +550,7 @@ Legend: ✓ available | ⏳ WIP (assigned/in-progress/has-pr)
 
 **Resume interrupted session:**
 ```bash
-/git:solve --continue
+Invoke with: git-tools-solve --continue
 ```
 
 **View branch status:**

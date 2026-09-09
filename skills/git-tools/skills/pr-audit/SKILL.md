@@ -1,15 +1,13 @@
 ---
 name: git-tools-pr-audit
 description: PR auditor — reviews open PRs, merges sequentially with rebase, handles conflicts (auto org-aware)
-argument-hint: "[--org] [--single] [--quick] [--dry-run] [--github|--gitlab] [PR#]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # PR Audit - Conventional Branch Workflow
 
 Bismillah! I'll audit open PRs (feat/fix/chore → base), merge sequentially with rebase between merges, and handle conflicts cleanly.
 
-Arguments provided: $ARGUMENTS
+Arguments: [--org] [--single] [--quick] [--dry-run] [--github|--gitlab] [PR#]
 
 ---
 
@@ -44,31 +42,34 @@ PRs are merged one at a time. After each merge, remaining PRs are rebased on the
 ## Arguments
 
 ```bash
-/git:pr-audit                  # Auto-detect: org mode if in org repo, else single repo
-/git:pr-audit --org            # Force org mode (scan ALL repos in organization)
-/git:pr-audit --org your-org  # Audit specific organization
-/git:pr-audit --single         # Force single-repo mode (override auto-org detection)
-/git:pr-audit --quick          # Fast mode: merge all passing PRs without review
-/git:pr-audit --dry-run        # Preview mode: show what would happen
-/git:pr-audit 123              # Audit specific PR #123
-/git:pr-audit --gitlab         # Use GitLab instead of GitHub
+Invoke with: git-tools-pr-audit  # Auto-detect: org mode if in org repo, else single repo
+Invoke with: git-tools-pr-audit --org  # Force org mode (scan ALL repos in organization)
+Invoke with: git-tools-pr-audit --org your-org  # Audit specific organization
+Invoke with: git-tools-pr-audit --single  # Force single-repo mode (override auto-org detection)
+Invoke with: git-tools-pr-audit --quick  # Fast mode: merge all passing PRs without review
+Invoke with: git-tools-pr-audit --dry-run  # Preview mode: show what would happen
+Invoke with: git-tools-pr-audit 123  # Audit specific PR #123
+Invoke with: git-tools-pr-audit --gitlab  # Use GitLab instead of GitHub
 ```
 
 **Parsing:**
 ```bash
-QUICK_MODE=false && [[ "$ARGUMENTS" == *"--quick"* ]] && QUICK_MODE=true
-DRY_RUN=false && [[ "$ARGUMENTS" == *"--dry-run"* ]] && DRY_RUN=true
-GITLAB=false && [[ "$ARGUMENTS" == *"--gitlab"* ]] && GITLAB=true
-FORCE_ORG=false && [[ "$ARGUMENTS" == *"--org"* ]] && FORCE_ORG=true
-FORCE_SINGLE=false && [[ "$ARGUMENTS" == *"--single"* ]] && FORCE_SINGLE=true
+# Arguments supplied when invoking this skill
+ARGS="<flags and optional PR number from the invocation arguments>"
+
+QUICK_MODE=false && [[ "$ARGS" == *"--quick"* ]] && QUICK_MODE=true
+DRY_RUN=false && [[ "$ARGS" == *"--dry-run"* ]] && DRY_RUN=true
+GITLAB=false && [[ "$ARGS" == *"--gitlab"* ]] && GITLAB=true
+FORCE_ORG=false && [[ "$ARGS" == *"--org"* ]] && FORCE_ORG=true
+FORCE_SINGLE=false && [[ "$ARGS" == *"--single"* ]] && FORCE_SINGLE=true
 
 CLI="gh" && [[ "$GITLAB" == true ]] && CLI="glab"
 
 # Specific PR number
-TARGET=$(echo "$ARGUMENTS" | grep -oE '^[0-9]+' | head -1)
+TARGET=$(echo "$ARGS" | grep -oE '^[0-9]+' | head -1)
 
 # Extract org name if provided with --org flag
-EXPLICIT_ORG_NAME=$(echo "$ARGUMENTS" | grep -oE '\-\-org [a-zA-Z0-9_-]+' | awk '{print $2}')
+EXPLICIT_ORG_NAME=$(echo "$ARGS" | grep -oE '\-\-org [a-zA-Z0-9_-]+' | awk '{print $2}')
 ```
 
 ---
@@ -274,7 +275,7 @@ if [[ "$ORG_MODE" == false ]] && [[ "$IS_ORG" == true ]]; then
         echo "┌────────────────────────────────────────────────────────────┐"
         echo "│ NOTE: $OTHER_PR_COUNT more PR(s) in other $ORG repos:      "
         echo "│$OTHER_PR_REPOS"
-        echo "│ Run '/git:pr-audit --org' to audit all repos              │"
+        echo "│ Run 'git-tools-pr-audit --org' to audit all repos          │"
         echo "└────────────────────────────────────────────────────────────┘"
         echo ""
     fi
@@ -508,7 +509,8 @@ PR_BRANCH=$($CLI pr view $PR_NUM --json headRefName -q '.headRefName')
 # Determine if this is a different repo (org mode)
 if [[ -n "$CURRENT_PR_REPO" ]] && [[ "$CURRENT_PR_REPO" != "$REPO_NAME" ]]; then
     # Different repo - clone to temp location
-    TEMP_DIR="$HOME/local-dev/${CURRENT_PR_REPO}-pr-${PR_NUM}-fix"
+    # WORKSPACE_DIR names the parent dir holding multi-repo clones (machine convention)
+    TEMP_DIR="${WORKSPACE_DIR:-$HOME/local-dev}/${CURRENT_PR_REPO}-pr-${PR_NUM}-fix"
 
     if [[ "$DRY_RUN" == true ]]; then
         echo "[DRY-RUN] Would clone $ORG_NAME/$CURRENT_PR_REPO for fixes"
@@ -651,7 +653,7 @@ Related to PR #$PR_NUM
 - [ ] [Action 2]
 
 ---
-Created via \`/git:pr-audit\`
+Created via \`git-tools-pr-audit\`
 EOF
 )" \
         --label "follow-up"
@@ -670,7 +672,7 @@ else
 [Specific feedback]
 
 ---
-Review via \`/git:pr-audit\`
+Review via \`git-tools-pr-audit\`
 EOF
 )"
 fi
@@ -831,31 +833,31 @@ NEXT STEPS:
 
 ```bash
 # Auto-detect mode (org mode if in org repo)
-/git:pr-audit
+Invoke with: git-tools-pr-audit
 
 # Audit all PRs across ALL repos in organization
-/git:pr-audit --org
+Invoke with: git-tools-pr-audit --org
 
 # Audit specific organization
-/git:pr-audit --org your-org
+Invoke with: git-tools-pr-audit --org your-org
 
 # Force single-repo mode (ignore org detection)
-/git:pr-audit --single
+Invoke with: git-tools-pr-audit --single
 
 # Quick merge all passing PRs (org-aware)
-/git:pr-audit --quick
+Invoke with: git-tools-pr-audit --quick
 
 # Quick merge all PRs across org
-/git:pr-audit --org --quick
+Invoke with: git-tools-pr-audit --org --quick
 
 # Preview mode
-/git:pr-audit --dry-run
+Invoke with: git-tools-pr-audit --dry-run
 
 # Specific PR
-/git:pr-audit 123
+Invoke with: git-tools-pr-audit 123
 
 # GitLab
-/git:pr-audit --gitlab
+Invoke with: git-tools-pr-audit --gitlab
 ```
 
 ---
