@@ -1,8 +1,6 @@
 ---
 name: quality-type-check-strict
 description: Run TypeScript strict checks and create comprehensive plan to fix all errors
-argument-hint: ""
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # TypeScript Strict Type Checking & Error Resolution
@@ -34,7 +32,7 @@ Let me execute this with maximum thoroughness:
    - Fix errors in planned order using appropriate tools
    - Verify each fix doesn't introduce new errors
    - Run intermediate type checks to track progress
-   - Update todo list with real-time progress
+   - Report progress in your response as phases complete
 
 ## Error Categories Handled
 
