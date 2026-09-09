@@ -1,19 +1,18 @@
 ---
 name: workspace-session-handoff
-description: Use when ending a session and work needs to continue in a new session (Claude Code or Pi). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across either host (shared workspace + vault).
-allowed-tools: ["bash", "read", "write", "edit"]
+description: Use when ending a session and work needs to continue in a new session (any host). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across hosts (shared workspace + vault).
 ---
 
 # Session Handoff
 
 Create a starter prompt file that a fresh session can use to continue work without context loss.
 
-> **Host-neutral.** This skill works the same in Claude Code and Pi. The handoff file lives in the shared `$HANDOFF_VAULT/{project}/` vault (default `$HANDOFF_VAULT`=`~/.local/handoffs` — a local directory; override via the `HANDOFF_VAULT` env var to point at your own private/synced vault), so a session in either host can write it and the next session (same host or the other) can resume — they share the workspace and the vault. Don't assume the next session runs in the same host as this one.
+> **Host-neutral.** This skill works the same in any harness. The handoff file lives in the shared `$HANDOFF_VAULT/{project}/` vault (default `$HANDOFF_VAULT`=`~/.local/handoffs` — a local directory; override via the `HANDOFF_VAULT` env var to point at your own private/synced vault), so a session in any host can write it and the next session (same host or another) can resume — they share the workspace and the vault. Don't assume the next session runs in the same host as this one.
 
 ## When to Use
 
 - End of a long session with pending tasks
-- Before a context-compaction / session switch (CC: `/compact`; pi: `/reload` or restart) when work remains
+- Before a context-compaction / session switch (your host's context-compaction or session-restart mechanism) when work remains
 - When context window is getting full and work remains
 - User says "save progress", "wrap up", "continue later", "new session"
 
@@ -106,7 +105,7 @@ Structure (the `## Progress Table` section is inserted only if Steps 2–3 produ
 
 ## Starter Prompt
 
-Copy-paste this into a new session (CC or pi):
+Copy-paste this into a new session:
 
 \```
 {OPENER-ECHO — include ONLY when a progress table was generated (Steps 2–3); omit entirely otherwise. Embed the table verbatim so it travels with the prompt even if the user pastes only this block:}

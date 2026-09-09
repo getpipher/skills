@@ -1,7 +1,6 @@
 ---
 name: workspace-catch-up
 description: Show repo mission, tech stack, current state, last 5 commits, and analyze uncommitted files
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Catch-Up: Complete Repository Context
@@ -54,7 +53,7 @@ Let me gather complete context for you:
   - First paragraph after title
   - Features/Goals section
   - Tech Stack section
-- If no docs found: Infer from file structure and suggest creating an `AGENTS.md` (try `/workspace:init-agents`)
+- If no docs found: Infer from file structure and suggest creating an `AGENTS.md` (try the `workspace-init-agents` skill)
 
 ### Smart File Analysis Patterns
 
@@ -148,7 +147,7 @@ Let me gather complete context for you:
 
 ```bash
 # Get complete context when returning to a project
-/catch-up
+Invoke with: workspace-catch-up
 
 # Use when:
 # - You just opened the project after time away

@@ -1,15 +1,13 @@
 ---
-name: workspace-ecosystem-claude
+name: workspace-ecosystem-agents
 description: Create ecosystem-wide context-file architecture (AGENTS.md | CLAUDE.md) for multi-repo organizations. Host-neutral — works for Claude Code, Pi, and any AGENTS.md-aware agent.
-argument-hint: "[org-name]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Ecosystem Context-File Architecture (AGENTS.md)
 
 Bismillah! I'll analyze your organization's repositories and help set up an ecosystem-wide **context-file architecture** — the cross-tool standard where `AGENTS.md` is the primary file (read by Claude Code, Pi, and any `AGENTS.md`-aware agent) and `CLAUDE.md` is Claude Code's legacy name for the same file.
 
-> **Hub / satellite model.** One **ecosystem hub** `AGENTS.md` (usually in your org's main/overview repo) carries org-wide context: mission, repo index, cross-repo standards. Each member repo gets a lightweight **satellite** `AGENTS.md` that links to the hub and holds only repo-specific content. An agent landing in any repo can orient itself: the satellite points to the hub, the hub indexes everything. This mirrors the `/workspace:init-agents` hub/satellite pattern at org scale.
+> **Hub / satellite model.** One **ecosystem hub** `AGENTS.md` (usually in your org's main/overview repo) carries org-wide context: mission, repo index, cross-repo standards. Each member repo gets a lightweight **satellite** `AGENTS.md` that links to the hub and holds only repo-specific content. An agent landing in any repo can orient itself: the satellite points to the hub, the hub indexes everything. This mirrors the `workspace-init-agents` hub/satellite pattern at org scale.
 
 **This command is always safe to run.** It detects first, shows analysis, and asks before any changes.
 
@@ -24,7 +22,7 @@ Bismillah! I'll analyze your organization's repositories and help set up an ecos
 - **`AGENTS.md` exists** → analyze and build on it.
 - **Neither exists** → create from scratch (Step 4+).
 
-When migrating, rephrase any CC-flavored framing host-neutrally ("guidance to Claude Code" → "guidance for AI agents"). This is the same migration the `/workspace:init-agents` skill performs per-repo; run it across every member repo as you wire the ecosystem.
+When migrating, rephrase any CC-flavored framing host-neutrally ("guidance to Claude Code" → "guidance for AI agents"). This is the same migration the `workspace-init-agents` skill performs per-repo; run it across every member repo as you wire the ecosystem.
 
 ---
 

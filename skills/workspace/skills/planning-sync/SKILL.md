@@ -1,15 +1,13 @@
 ---
 name: workspace-planning-sync
 description: Analyze repo and provide intelligent planning documentation suggestions (read-only)
-argument-hint: "[--force] [--type=<repo-type>] [--export]"
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # Adaptive Planning Advisor (Read-Only Analysis)
 
 Bismillah! I'll intelligently analyze your codebase and provide comprehensive planning documentation suggestions without modifying any files.
 
-Arguments provided: $ARGUMENTS
+Arguments: [--force] [--type=<repo-type>] [--export]
 
 ---
 
@@ -48,7 +46,7 @@ This command adapts to different repository types:
 
 ## Using with Thinking Mode
 
-When executing with **mode: think** or **mode: think hard**, I will:
+When executing (use an extended-reasoning mode if your environment provides one), I will:
 
 - **Repository Type Intelligence**: Deep analysis to detect repo purpose
 - **Context-Aware Suggestions**: Recommendations matching your workflow
@@ -72,7 +70,8 @@ FORCE_MODE=false
 OVERRIDE_TYPE=""
 EXPORT_MODE=false
 
-for arg in $ARGUMENTS; do
+ARGS="<flags from the invocation arguments>"
+for arg in $ARGS; do
   case $arg in
     --force)
       FORCE_MODE=true
@@ -313,7 +312,7 @@ esac
 **Search Patterns:**
 ```
 PRD: PRD.md, REQUIREMENTS.md, PRODUCT_REQUIREMENTS.md
-Locations: /, /docs/, /planning/, /.github/   (also check host context dir: ~/.claude/ or ~/.pi/agent/ for global notes)
+Locations: /, /docs/, /planning/, /.github/   (also check your global agent context dir if known, e.g. via $AGENT_CONTEXT_DIR, for global notes)
 
 Execution: EXECUTION.md, EXECUTION_PLAN.md, IMPLEMENTATION.md, PROGRESS.md
 Locations: /, /docs/, /planning/
@@ -364,7 +363,7 @@ SCATTERED_COUNT=$(echo "$SCATTERED" | grep -c "\.md$" || echo "0")
 - Inconsistent location patterns
 - No clear docs/ directory structure
 
-**Note for report:** If scattered documentation is detected (>3 .md files outside docs/), mention this in the recommendations section and suggest using `/docs:organize` command for comprehensive reorganization.
+**Note for report:** If scattered documentation is detected (>3 .md files outside docs/), mention this in the recommendations section and suggest using the `workspace-organize-docs` skill for comprehensive reorganization.
 
 ---
 
@@ -487,7 +486,7 @@ Analysis: 2025-10-13 09:30 UTC
 Searched locations:
   - /docs/PRD.md ❌
   - /PRD.md ❌
-  - /.claude/PRD.md ❌
+  - /<agent-context-dir>/PRD.md ❌
   - /EXECUTION.md ❌
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -516,9 +515,9 @@ Tool 2: Shell Configuration (Zsh)
 ├─ Config Area 2.3: Functions ⏳
 │  └─ Settings: Custom functions (planned)
 
-Tool 3: Claude Code Configuration
+Tool 3: AI Assistant Configuration
 ├─ Status: 55% Complete (6/11 config areas)
-├─ Config Area 3.1: Slash Commands ✅
+├─ Config Area 3.1: Custom Commands ✅
 │  └─ Settings: 15 commands across 6 categories
 ├─ Config Area 3.2: Global Config ✅
 │  └─ Settings: context-file (AGENTS.md) workflow
@@ -529,7 +528,7 @@ Evidence Files:
   - tmux/.tmux.conf (234 lines)
   - tmux/plugins/ (12 plugins installed)
   - zsh/.zshrc (456 lines)
-  - claude/.claude/commands/ (15 slash commands)
+  - agent/commands/ (15 commands)
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 RECOMMENDATIONS
@@ -571,7 +570,7 @@ Evidence Files:
        TODO: Categorize and document purpose
 
    🟡 MEDIUM PRIORITY (Consider Adding):
-     - Claude Code hooks not configured
+     - Agent hooks not configured
        Suggested: Pre-commit formatting hook
 
      - Shell functions lacking documentation
@@ -589,7 +588,7 @@ Evidence Files:
    **Scattered documentation locations:**
      - tmux/TMUX_SETUP.md
      - zsh/ALIASES_GUIDE.md
-     - claude/COMMANDS_REFERENCE.md
+     - agent/COMMANDS_REFERENCE.md
      - [5 more files in various directories]
 
    **Recommended structure:**
@@ -604,7 +603,7 @@ Evidence Files:
      - Better documentation navigation
 
    **How to fix:**
-     Run: `/docs:organize` for intelligent reorganization suggestions
+     Run: `workspace-organize-docs` for intelligent reorganization suggestions
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 PROPOSED STRUCTURE PREVIEW
@@ -725,23 +724,23 @@ Here's what I suggest for docs/CONFIG_PLAN.md:
 
 ---
 
-## Tool 3: Claude Code Configuration
+## Tool 3: AI Assistant Configuration
 **Purpose:** AI-powered development assistant setup
 **Status:** 55% Complete (6/11 areas)
 **Priority:** High
 
-### Config Area 3.1: Slash Commands ✅
-**What:** Custom Claude Code commands
+### Config Area 3.1: Custom Commands ✅
+**What:** Custom assistant commands
 **Why:** Automate common workflows
 **Implementation:**
-  - Command directory: claude/.claude/commands/
+  - Command directory: agent/commands/
   - 15 commands across 6 categories:
     - git/ (7 commands): commit, create-pr, merge-pr, etc.
     - init/ (2 commands): repo initialization
-    - planning/ (1 command): planning:sync
+    - planning/ (1 command): planning-sync
     - quality/ (2 commands): lint-fix, type-check
     - superteam/ (2 commands): bounty, hackathon
-    - meta/ (1 command): make-slash
+    - meta/ (1 command): make-command
 **Status:** Complete
 **Tested:** ✅ All commands functional
 
@@ -749,17 +748,17 @@ Here's what I suggest for docs/CONFIG_PLAN.md:
 **What:** CLAUDE.md/AGENTS.md workflow preferences
 **Why:** Consistent AI assistance behavior
 **Implementation:**
-  - Global config: host context file (`~/.claude/CLAUDE.md` for CC, `~/.pi/agent/AGENTS.md` for pi — whichever you maintain as your global agent config)
+  - Global config: the global agent context file (whichever you maintain)
   - Workflow definitions
   - Code standards and preferences
 **Status:** Complete
 **Maintained:** Regularly updated
 
 ### Config Area 3.3: Hooks ⏳
-**What:** Automated Claude Code triggers
+**What:** Automated agent triggers
 **Why:** Pre-commit checks, auto-formatting
 **Implementation:**
-  - Hook directory: .claude/hooks/ (not created)
+  - Hook directory: agent/hooks/ (not created)
   - Pre-commit: Planned linting/formatting
   - Post-write: Planned test triggers
 **Status:** Not started
@@ -767,7 +766,7 @@ Here's what I suggest for docs/CONFIG_PLAN.md:
 **Suggested Hooks:**
   - pre-commit: Run linters before commit
   - on-file-write: Trigger related tests
-**Next Step:** Research Claude Code hook capabilities
+**Next Step:** Research agent hook capabilities
 
 ---
 
@@ -779,7 +778,7 @@ Here's what I suggest for docs/CONFIG_PLAN.md:
 | 🔴 HIGH | Shell | Organize aliases | 1h | Medium |
 | 🟡 MED | Tmux | TPM plugin system | 1.5h | Medium |
 | 🟡 MED | Shell | Document functions | 2h | Medium |
-| 🟡 MED | Claude | Configure hooks | 3h | High |
+| 🟡 MED | Assistant | Configure hooks | 3h | High |
 | 🟢 LOW | All | Plugin docs | 4h | Low |
 
 ## Next Session Goals
@@ -791,7 +790,7 @@ Here's what I suggest for docs/CONFIG_PLAN.md:
 
 2. **Short-term (This Month):**
    - Set up TPM for tmux plugins
-   - Configure Claude Code hooks
+   - Configure agent hooks
    - Document all configuration choices
 
 3. **Long-term (This Quarter):**
@@ -967,7 +966,7 @@ Found 12 discrepancies across documentation:
    To prevent this:
    - Sync docs weekly (every Monday)
    - Update EXECUTION.md after each PR merge
-   - Run /planning:sync before major releases
+   - Run workspace-planning-sync before major releases
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 PROPOSED UPDATES PREVIEW
@@ -1198,7 +1197,7 @@ echo "1. Review drafts: cd /tmp/planning-sync-drafts && ls -la"
 echo "2. Edit if needed: open /tmp/planning-sync-drafts/CONFIG_PLAN.md"
 echo "3. Copy to repo: cp /tmp/planning-sync-drafts/*.md docs/"
 echo ""
-echo "Or run: /planning:sync --apply-drafts"
+echo "Or run: workspace-planning-sync --apply-drafts"
 ```
 
 ### Option 2: Show Detailed Analysis
