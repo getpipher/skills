@@ -1,6 +1,6 @@
 # @getpipher/design
 
-analyze any website's design and generate AI-friendly prompts (read-only, safe anywhere). Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+Design analysis — analyze any website's design and generate AI-friendly prompts (read-only, safe anywhere). For any coding agent — install as a pi package or via npx skills add.
 
 ## Skill
 
@@ -14,7 +14,7 @@ analyze any website's design and generate AI-friendly prompts (read-only, safe a
 pi install npm:@getpipher/design
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Or, for any other coding agent: `npx skills add getpipher/skills`
 
 ## License
 
