@@ -1,14 +1,13 @@
 ---
 name: x-api
 description: X/Twitter API v2 reference — auth, accounts, endpoints, and usage patterns
-allowed-tools: ["bash", "read", "write", "edit"]
 ---
 
 # X API v2 Reference
 
 Use this skill whenever interacting with X/Twitter API. All auth details, account mappings, and endpoint patterns are here.
 
-Arguments provided: $ARGUMENTS
+Arguments: the operation or endpoint topic supplied when invoking (see Execution).
 
 ## Account & Auth Setup
 

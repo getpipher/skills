@@ -1,6 +1,6 @@
 # @getpipher/x-api
 
-auth (Bearer / OAuth 1.0a / 2.0), endpoints, pricing, and a mandatory cost guard. Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+X/Twitter API v2 reference — auth (Bearer / OAuth 1.0a / 2.0), endpoints, pricing, and a mandatory cost guard. For any coding agent — install as a pi package or via npx skills add.
 
 ## Skill
 
@@ -14,7 +14,7 @@ auth (Bearer / OAuth 1.0a / 2.0), endpoints, pricing, and a mandatory cost guard
 pi install npm:@getpipher/x-api
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Or, for any other coding agent: `npx skills add getpipher/skills`
 
 ## License
 
