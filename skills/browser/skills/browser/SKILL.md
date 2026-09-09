@@ -1,8 +1,6 @@
 ---
 name: browser
 description: Drive a real browser via the browser-use CDP CLI (navigate, screenshot, coordinate-click, extract text/forms, manage tabs). Use for end-user QA journeys, form automation, scraping, and any web automation. Requires Chrome remote-debugging enabled; coordinate-clicking needs a vision-capable model or a js-reachable container.
-license: MIT
-allowed-tools: ["bash", "read", "write", "edit", "describe_image"]
 ---
 
 # Browser — `browser-use` (CDP harness)
@@ -55,13 +53,14 @@ The core interaction is **screenshot → read pixel → `click_at_xy(x, y)` → 
 On a text-only model this is crippled — every screenshot needs a separate image-analysis call
 (per-click tax) and is imprecise.
 
-- **Click-heavy session → start pi on a vision-capable model** (one that reads images in-context). pi's `read` tool passes images to vision models when the session model is vision-capable (validated 2026-07-07). Note: model changes apply at turn boundaries (the agent harness captures `turnState.model` per turn), so if you switch to a vision model mid-session, a `read` in that same turn may still use the previous model — start a new turn after switching, or launch pi fresh on the vision model.
+- **Click-heavy session → run on a vision-capable model** (one that reads images in-context). Verify your host passes screenshots to the model by reading one probe screenshot. Model switches may not take effect until the next turn on some hosts — start a new turn after switching.
 - **Text-model fallback:** prefer `js(...)` / DOM extraction (`page_info()`, selectors) over
-  visual clicks. `describe_image` is fine for *describing* a page but **too imprecise for click
-  coordinates** (validated 2026-07-07: derived coord was 160px off → missed a 162px-tall button).
-  Do **not** feed `describe_image`-derived coords into `click_at_xy`. On a text model, use
-  `js(...)` selector-clicks (`document.querySelector(...).click()`) instead — OR the
-  container-coords technique in **Edge cases** below for js-unreachable targets.
+  visual clicks. An image-description tool, if your host provides one, is fine for *describing*
+  a page but **too imprecise for click coordinates** (validated 2026-07-07: a derived coord was
+  160px off → missed a 162px-tall button). Do **not** feed image-description-derived coords
+  into `click_at_xy`. On a text model, use `js(...)` selector-clicks
+  (`document.querySelector(...).click()`) instead — OR the container-coords technique in
+  **Edge cases** below for js-unreachable targets.
 
 ## Canonical reference (READ on first use — do not duplicate here)
 
@@ -72,7 +71,7 @@ browser-use skill
 That prints the authoritative helper catalogue (`new_tab`, `ensure_real_tab`, `page_info`,
 `capture_screenshot`, `click_at_xy`, `wait_for_load`, `js`, `cdp`, `start_remote_daemon`,
 `stop_remote_daemon`, …) + interaction-skills pointers (dialogs, iframes, shadow-dom, tabs…).
-The sections below are the **pi-specific delta only**.
+The sections below add host-specific operational notes.
 
 ## Core loop — local/staging QA
 
@@ -98,7 +97,7 @@ PY
 - `new_tab(url)` opens a fresh tab and focuses it; `goto_url(url)` navigates the
   current tab in place. Use `new_tab()` **once** per task, `goto_url()` thereafter.
 - Click = screenshot → derive `(x,y)` → `click_at_xy(x,y)` → screenshot to confirm.
-- Analyze the screenshot natively (vision model) or via the `describe_image` tool (text model).
+- Analyze the screenshot natively (vision model) or via an image-description tool, if your host provides one (text model).
 - For DOM-bound work (text extraction, form values) prefer `js(...)` over coordinates.
 
 ## Cloud (stealth) browsers — bot-protected sites
@@ -156,8 +155,6 @@ their handlers normally.
 For targets with **no** js-reachable container (canvas, image maps) — where neither selectors,
 `js(...)`, nor the container-coords technique can reach — coordinate-clicking requires the
 vision-click loop: screenshot → model reads pixels → derive `(x, y)` → `click_at_xy(x, y)`.
-This works fully on pi when the session model is vision-capable (configured with
-`"input": ["text", "image"]`): pi's `read` tool passes the screenshot to the model, the model
-sees it natively, and the click coordinates are accurate. Run browser-heavy vision work on a
-vision-capable session (start pi on a vision model, or switch and begin a new turn). On a text
-model this path is unavailable — fall back to `js(...)` / container-coords where possible.
+This works when the host passes screenshots to a vision-capable model natively — verify with
+one probe screenshot; if images can't reach the model, fall back to `js(...)` /
+container-coords where possible. Run browser-heavy vision work on a vision-capable session.
