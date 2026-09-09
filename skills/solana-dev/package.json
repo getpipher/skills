@@ -1,7 +1,7 @@
 {
   "name": "@getpipher/solana-dev",
-  "version": "0.2.0",
-  "description": "End-to-end Solana development playbook skill for pi \u2014 framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testing (Jan 2026).",
+  "version": "0.3.0",
+  "description": "End-to-end Solana development playbook skill \u2014 framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testing (Jan 2026).",
   "keywords": [
     "pi-package",
     "pi-skills",

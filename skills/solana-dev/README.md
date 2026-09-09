@@ -1,6 +1,6 @@
 # @getpipher/solana-dev
 
-framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testing (Jan 2026). Built for [pi](https://github.com/earendil-works/pi-coding-agent).
+End-to-end Solana development playbook — framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testing (Jan 2026). For any coding agent — install as a pi package or via npx skills add.
 
 ## Skill
 
@@ -14,7 +14,7 @@ framework-kit, Anchor/Pinocchio programs, wallet-standard connection, and testin
 pi install npm:@getpipher/solana-dev
 ```
 
-Requires [pi](https://github.com/earendil-works/pi-coding-agent).
+Or, for any other coding agent: `npx skills add getpipher/skills`
 
 ## License
 
