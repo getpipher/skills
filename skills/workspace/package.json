@@ -1,6 +1,6 @@
 {
   "name": "@getpipher/workspace",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Workspace & context-management skills — repo catch-up, AGENTS.md initialization, ecosystem context-file architecture, doc organization, planning sync, and cross-session handoff. Host-neutral: any AGENTS.md-aware coding agent.",
   "keywords": [
     "pi-package",
