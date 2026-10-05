@@ -11,6 +11,8 @@ Bismillah! Let me show you where we are and what we just did.
 
 Let me gather complete context for you:
 
+0. **Handoff check** — If `$HANDOFF_VAULT/{project}/` (`$HANDOFF_VAULT` defaults to `~/.local/handoffs`) contains session handoffs, surface the newest one (`ls "$HANDOFF_VAULT"/{project}/session-handoff-*.md | sort -r | head -1`) and offer to render its starter prompt before gathering git state.
+
 1. **Extract Mission & Purpose**
    - Read the project context file — `AGENTS.md` (or `CLAUDE.md`, CC's legacy name) — first, for Repository Overview and Tech Stack
    - Fallback to README.md if no context file exists
