@@ -46,7 +46,7 @@ A **progress table** sits near the top of the handoff (between the header block 
 
 **Generate a progress table when ANY apply:**
 
-1. **Predecessor handoff has one** — `ls "$HANDOFF_VAULT"/{project}/session-handoff-*.md | sort -r | head -1` contains `## Progress Table`. Chain consistency > per-session re-evaluation. (Reverse-lexicographic sort, not mtime — the `YYYY-MM-DD[-letter]` naming is lexicographically ordered; mtime lies on restore/copy/sync.)
+1. **Predecessor handoff has one** — `ls "$HANDOFF_VAULT"/{project}/session-handoff-*.md 2>/dev/null | sed 's/\.md$//' | sort -r | head -1 | sed 's/$/.md/'` contains `## Progress Table`. Chain consistency > per-session re-evaluation. (Reverse-lexicographic sort **after dropping the `.md` extension**, not mtime — `-` (0x2D) sorts *below* `.` (0x2E), so a `-b`…`-g` file loses to its base file whenever the extension is left in the sort input. mtime lies on restore/copy/sync.)
 2. **User explicitly requested** — prompt contains "MUST include progress table" or "include the progress table".
 3. **Work has numbered discrete units** — multi-phase plan with slices/tasks (e.g., "Slice 5.7 done, next 5.8"), or stacked PR chain where order matters.
 4. **More than 3 PRs/issues stacked across sessions** — flat bullet list becomes unscannable.
@@ -64,7 +64,7 @@ A **progress table** sits near the top of the handoff (between the header block 
 1. **Find the most recent predecessor handoff** for this project:
 
    ```bash
-   ls "$HANDOFF_VAULT"/{project}/session-handoff-*.md 2>/dev/null | sort -r | head -1
+   ls "$HANDOFF_VAULT"/{project}/session-handoff-*.md 2>/dev/null | sed 's/\.md$//' | sort -r | head -1 | sed 's/$/.md/'
    ```
 
    Locate its `## Progress Table` section.
