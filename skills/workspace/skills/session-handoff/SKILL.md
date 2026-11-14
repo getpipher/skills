@@ -1,6 +1,6 @@
 ---
 name: workspace-session-handoff
-description: Use when ending a session and work needs to continue in a new session (any host). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across hosts (shared workspace + vault). Also use when the session relied on skills — audits, TDD, debugging, hunt or release workflows — that follow-up sessions must keep invoking: skill usage must survive the session boundary by exact name.
+description: Use when ending a session and work needs to continue in a new session (any host). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across hosts (shared workspace + vault). Also use when the session relied on skills — audits, TDD, debugging, hunt or release workflows — that follow-up sessions must keep invoking — skill usage must survive the session boundary by exact name.
 ---
 
 # Session Handoff
