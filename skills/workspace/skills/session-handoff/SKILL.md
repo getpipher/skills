@@ -1,6 +1,6 @@
 ---
 name: workspace-session-handoff
-description: Use when ending a session and work needs to continue in a new session (any host). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across hosts (shared workspace + vault).
+description: Use when ending a session and work needs to continue in a new session (any host). Creates a self-contained starter prompt with full context so the next session picks up seamlessly. Host-neutral — the handoff bridges sessions across hosts (shared workspace + vault). Also use when the session relied on skills — audits, TDD, debugging, hunt or release workflows — that follow-up sessions must keep invoking: skill usage must survive the session boundary by exact name.
 ---
 
 # Session Handoff
@@ -38,6 +38,7 @@ Collect from the current conversation (do NOT re-read files you already have con
 6. **File paths touched** — specific files modified (helps the next session navigate)
 7. **CI/deploy state** — are all repos green? anything deploying?
 8. **VPS/infra state** — any server-side changes made (env vars, configs, deploys)
+9. **Skills to carry into the next session** — every skill this session invoked, plus every skill the pending work requires, by exact invocable name (e.g., `web2-audit-semantics`, `systematic-debugging`), one line each on when/why for this handoff's pending work. The name must survive verbatim: the next session matches skills by description against fresh context, and a paraphrased handoff ("use the standard audit lens") loses the trigger vocabulary — only the exact name reliably fires it. If the session never named a skill explicitly, infer from the pending work using your installed-skills list. If genuinely no skill applies, record none — never pad with decorative names.
 
 ### Step 2: Decide if a progress table is needed
 
@@ -88,7 +89,7 @@ Adapt column names to the project's vocabulary ("Milestone" instead of "Phase", 
 
 ### Step 4: Write the Handoff File
 
-Structure (the `## Progress Table` section is inserted only if Steps 2–3 produced one):
+Structure (conditional sections: `## Progress Table` per Steps 2–3; FIRST-ACTIONS inside the starter prompt per (progress table and/or Step 1 item 9); "Skills to invoke" inside the starter prompt per Step 1 item 9):
 
 ```markdown
 # {Project} — Session Handoff ({date}-{letter} — {one-line headline})
@@ -110,11 +111,26 @@ Structure (the `## Progress Table` section is inserted only if Steps 2–3 produ
 Copy-paste this into a new session:
 
 \```
-{OPENER-ECHO — include ONLY when a progress table was generated (Steps 2–3); omit entirely otherwise. Embed the table verbatim so it travels with the prompt even if the user pastes only this block:}
+{FIRST-ACTIONS — include ONLY when a progress table was generated (Steps 2–3) and/or Step 1 item 9 listed at least one skill; omit entirely when neither applies. Compose it from the parts below that apply, numbered sequentially with no gaps:}
 
-FIRST — before reading any plan, touching any code, or taking any other action — render the progress table below back to me verbatim, under the heading "## Resuming — where we left off". Then continue with the task.
+FIRST — before reading any plan, touching any code, or taking any other action — do these, in order:
 
-{full progress table copied verbatim from the ## Progress Table section above, including the footer summary line}
+{only when a progress table exists:}
+1. Render the progress table below back to me verbatim, under the heading "## Resuming — where we left off".
+{end only-when}
+
+{only when skills are listed:}
+{next sequential number}. Invoke every skill named under "Skills to invoke" below — read and follow each before starting the task work.
+{end only-when}
+
+{full progress table copied verbatim from the ## Progress Table section above, including the footer summary line — only when a progress table exists}
+
+{--- — include ONLY together with the SKILL INVOKE section below; omit when it is omitted}
+
+{SKILL INVOKE — include ONLY when Step 1 item 9 listed at least one skill; omit entirely otherwise. Embed the list verbatim so it travels with the prompt even if the user pastes only this block:}
+
+Skills to invoke:
+- `{skill-name}` — {one line: when/why for THIS handoff's pending work}
 
 ---
 
@@ -213,4 +229,5 @@ The new session performs the mirror action on arrival: the starter prompt (Step 
 - **Private vault only** — the vault must be a private, local, strategy-safe location. `~/.local/handoffs` is the canonical home; durability is provided by an out-of-band mirror, not by writers choosing alternate locations.
 - **Progress table is part of the chain contract** — once a chain starts using a progress table, every handoff in the chain MUST include + update it. Skipping breaks scannability for the next session and forces a rebuild from prior handoffs.
 - **Progress table echo is the closer, not the full handoff** — Step 7's inline table is a snapshot for the current chat. The handoff file (`.md`) is the durable artifact. Don't paraphrase or trim the table when echoing — render it verbatim.
-- **Opener-echo mirrors the closer** — when a progress table exists, the starter prompt's FIRST instruction MUST be "render the table before doing anything." Embed the table inside the starter-prompt block (Step 4), not as a file reference, so it survives the user pasting the prompt alone. The fresh session renders it as its first action — a "where we left off" snapshot symmetric to Step 7's "where we ended" closer. No table generated → no opener-echo.
+- **FIRST-ACTIONS mirror the closer** — when a progress table exists, the starter prompt's ordered list MUST lead with "render the table before doing anything" (item 1 of FIRST-ACTIONS). Embed the table inside the starter-prompt block (Step 4), not as a file reference, so it survives the user pasting the prompt alone. The fresh session renders it as its first action — a "where we left off" snapshot symmetric to Step 7's "where we ended" closer. No table and no skills-to-invoke → no FIRST-ACTIONS block at all; a skills-only handoff still leads with FIRST (invoke is item 1).
+- **Skill continuity travels by exact name** — every skill from Step 1 item 9 MUST appear in the starter prompt's "Skills to invoke" list, exact invocable name verbatim. A paraphrase ("use the standard audit lens") doesn't reliably trigger the next session's skill matching, and continuation phrasing loses the "starting X" vocabulary a fresh session needs to match descriptions. No applicable skill → omit the list entirely; decorative padding erodes the contract.
