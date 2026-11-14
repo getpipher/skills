@@ -73,6 +73,56 @@ That prints the authoritative helper catalogue (`new_tab`, `ensure_real_tab`, `p
 `stop_remote_daemon`, …) + interaction-skills pointers (dialogs, iframes, shadow-dom, tabs…).
 The sections below add host-specific operational notes.
 
+## Helper calling conventions (verified: browser_harness 0.1.4 → 0.1.13)
+
+`browser-use skill` prints the catalogue for **the version you have installed**, so version
+skew surfaces as `NameError`, not as a doc mismatch. Three rules that bite when guessed:
+
+**`cdp(method, **params)` takes keyword params — never a dict.**
+A positional dict lands in the `session_id` slot and Chrome rejects the frame:
+
+```python
+cdp("Input.insertText", text="hello")          # ✓ kwargs
+cdp("Target.activateTarget", targetId=tid)     # ✓ browser-level method, no session needed
+cdp("Input.insertText", {"text": "hello"})     # ✗ → -32600 "Message may have string 'sessionId' property"
+```
+
+**Tabs: attaching is not showing.** `list_tabs()`, `current_tab()`, `switch_tab(t)`,
+`new_tab(url)`, `close_tab(t)`, `ensure_real_tab()` exist in every 0.1.x. `switch_tab()`
+accepts a targetId string **or** the dict from `list_tabs()` / `current_tab()`. Only
+"bring Chrome's visible tab forward" differs by version:
+
+|Installed harness|Bring a tab to the front|
+|---|---|
+|≤ 0.1.8|`switch_tab(t)` — activates as a side effect; no `activate_tab`|
+|≥ 0.1.9|`activate_tab(t)`, or `switch_tab(t, activate=True)` — plain `switch_tab()` deliberately leaves the visible tab alone|
+|any|`cdp("Target.activateTarget", targetId=tid)`|
+
+`NameError: activate_tab is not defined` means the install predates 0.1.9 — check
+`browser-use --version`, then upgrade with `browser-use --update -y` (the daemon picks up the
+new code on the next call; `browser-use --reload` forces it immediately).
+
+**Typing: pick by what the field listens to.**
+
+|Helper|Mechanism|Use when|
+|---|---|---|
+|`type_text(text)`|`Input.insertText` — no key events, no framework listeners|plain fields, extraction, non-framework pages|
+|`fill_input(selector, text)`|focus → select-all + Backspace → per-char key events → synthetic `input`+`change`|React controlled / Vue v-model / Ember tracked inputs — submit buttons stay disabled without real events|
+|`press_key(key, modifiers=0)`|real `keyDown`/`char`/`keyUp` with virtual key codes|Enter, Tab, Escape, arrows, shortcuts (`modifiers`: 1=Alt, 2=Ctrl, 4=Meta/Cmd, 8=Shift)|
+
+List what your install actually exposes before assuming a helper exists:
+
+```bash
+browser-use <<'PY'
+import types
+print(sorted(n for n, v in globals().items() if callable(v) and not isinstance(v, types.ModuleType) and not n.startswith("_")))
+PY
+```
+
+CDP input is page-level and viewport-relative: it cannot click or dismiss **Chrome's own UI**
+(profile bubble, downloads shelf, permission prompts). `press_key("Escape")` closes page-level
+popovers; browser chrome is out of reach — click it yourself or ask the user.
+
 ## Core loop — local/staging QA
 
 **Tab model (important — don't litter tabs):** open **one** tab per task with
@@ -94,8 +144,10 @@ PY
 ```
 
 - Helpers are pre-imported inside the heredoc; the daemon auto-starts.
-- `new_tab(url)` opens a fresh tab and focuses it; `goto_url(url)` navigates the
-  current tab in place. Use `new_tab()` **once** per task, `goto_url()` thereafter.
+- `new_tab(url)` opens a fresh tab and attaches the harness to it; it does **not** pull
+  Chrome's visible tab forward on harness ≥ 0.1.9 (see calling conventions).
+  `goto_url(url)` navigates the current tab in place. Use `new_tab()` **once** per task,
+  `goto_url()` thereafter.
 - Click = screenshot → derive `(x,y)` → `click_at_xy(x,y)` → screenshot to confirm.
 - Analyze the screenshot natively (vision model) or via an image-description tool, if your host provides one (text model).
 - For DOM-bound work (text extraction, form values) prefer `js(...)` over coordinates.
