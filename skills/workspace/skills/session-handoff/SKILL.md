@@ -125,7 +125,7 @@ FIRST — before reading any plan, touching any code, or taking any other action
 
 {full progress table copied verbatim from the ## Progress Table section above, including the footer summary line — only when a progress table exists}
 
----
+{--- — include ONLY together with the SKILL INVOKE section below; omit when it is omitted}
 
 {SKILL INVOKE — include ONLY when Step 1 item 9 listed at least one skill; omit entirely otherwise. Embed the list verbatim so it travels with the prompt even if the user pastes only this block:}
 
