@@ -9,6 +9,10 @@ name: Publish packages
 # Requires secret NPM_TOKEN (granular npm token, Read-and-write, scoped to
 # @getpipher, with "Bypass 2FA"). Set at getpipher org level so all getpipher
 # repos inherit it:  gh secret set NPM_TOKEN --org getpipher
+#
+# Verify a release through the VERSION-SCOPED endpoint
+# (https://registry.npmjs.org/@getpipher/<family>/<version>) — the flat packument and
+# `npm view` can lag minutes behind a successful publish. Never re-publish on a stale read.
 
 on:
   push:
@@ -35,7 +39,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          set -u
+          # GitHub's default run shell is `bash -e`, so a failed `npm publish` already
+          # fails this step (observed 2026-07-05, run 28737900977). Keep -e/-o pipefail
+          # explicit so a later `shell:` change can never mask a publish failure.
+          set -euo pipefail
           families="git-tools quality workspace work design solana-dev vps-deploy x-api browser"
           published_any=false
           for family in $families; do
