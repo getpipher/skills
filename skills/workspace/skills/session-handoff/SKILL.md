@@ -89,7 +89,7 @@ Adapt column names to the project's vocabulary ("Milestone" instead of "Phase", 
 
 ### Step 4: Write the Handoff File
 
-Structure (conditional sections: `## Progress Table` per Steps 2–3; FIRST-ACTIONS + "Skills to invoke" inside the starter prompt per Step 1 item 9):
+Structure (conditional sections: `## Progress Table` per Steps 2–3; FIRST-ACTIONS inside the starter prompt per (progress table and/or Step 1 item 9); "Skills to invoke" inside the starter prompt per Step 1 item 9):
 
 ```markdown
 # {Project} — Session Handoff ({date}-{letter} — {one-line headline})
